@@ -165,17 +165,17 @@ ALTER TABLE stock_w_fi OWNER TO pi;
 CREATE VIEW advice_down_idx AS
  SELECT stock_w_fi.dt,
     stock_w_fi.ticker,
-    stock_w_fi.close,
-    stock_w_fi.ao,
-    stock_w_fi.prev_ao,
-    stock_w_fi.ema10,
-    stock_w_fi.ema20,
-    stock_w_fi.fi2,
-    stock_w_fi.fi13,
-    stock_w_fi.volume
+    round((stock_w_fi.close)::numeric, 2) AS close,
+    round((stock_w_fi.ao)::numeric, 2) AS ao,
+    round((stock_w_fi.prev_ao)::numeric, 2) AS prev_ao,
+    round(stock_w_fi.ema10, 2) AS ema10,
+    round(stock_w_fi.ema20, 2) AS ema20,
+    round(stock_w_fi.fi2, 2) AS fi2,
+    round(stock_w_fi.fi13, 2) AS fi13,
+    round((stock_w_fi.volume)::numeric, 2) AS volume
    FROM stock_w_fi
-  WHERE ((((((stock_w_fi.dt = ( SELECT max(stock_hist.dt) AS max
-           FROM stock_hist)) AND (stock_w_fi.fi2 > (0)::numeric)) AND (stock_w_fi.fi13 < (0)::numeric)) AND (stock_w_fi.ema10 < stock_w_fi.week_ago_ema10)) AND (stock_w_fi.ema20 < stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
+  WHERE (((((stock_w_fi.dt = ( SELECT max(stock_hist.dt) AS max
+           FROM stock_hist)) AND (stock_w_fi.fi2 > (0)::numeric)) AND (stock_w_fi.fi13 < (0)::numeric)) AND (stock_w_fi.ema10 < stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
 
 
 ALTER TABLE advice_down_idx OWNER TO pi;
@@ -187,17 +187,17 @@ ALTER TABLE advice_down_idx OWNER TO pi;
 CREATE VIEW advice_up_idx AS
  SELECT stock_w_fi.dt,
     stock_w_fi.ticker,
-    stock_w_fi.close,
-    stock_w_fi.ao,
-    stock_w_fi.prev_ao,
-    stock_w_fi.ema10,
-    stock_w_fi.ema20,
-    stock_w_fi.fi2,
-    stock_w_fi.fi13,
-    stock_w_fi.volume
+    round((stock_w_fi.close)::numeric, 2) AS close,
+    round((stock_w_fi.ao)::numeric, 2) AS ao,
+    round((stock_w_fi.prev_ao)::numeric, 2) AS prev_ao,
+    round(stock_w_fi.ema10, 2) AS ema10,
+    round(stock_w_fi.ema20, 2) AS ema20,
+    round(stock_w_fi.fi2, 2) AS fi2,
+    round(stock_w_fi.fi13, 2) AS fi13,
+    round((stock_w_fi.volume)::numeric, 2) AS volume
    FROM stock_w_fi
-  WHERE ((((((stock_w_fi.dt = ( SELECT max(stock_hist.dt) AS max
-           FROM stock_hist)) AND (stock_w_fi.fi2 < (0)::numeric)) AND (stock_w_fi.fi13 > (0)::numeric)) AND (stock_w_fi.ema10 > stock_w_fi.week_ago_ema10)) AND (stock_w_fi.ema20 > stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
+  WHERE (((((stock_w_fi.dt = ( SELECT max(stock_hist.dt) AS max
+           FROM stock_hist)) AND (stock_w_fi.fi2 < (0)::numeric)) AND (stock_w_fi.fi13 > (0)::numeric)) AND (stock_w_fi.ema10 > stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
 
 
 ALTER TABLE advice_up_idx OWNER TO pi;
