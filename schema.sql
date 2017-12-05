@@ -191,10 +191,11 @@ CREATE VIEW advice_up_idx AS
     stock_w_fi.ema10,
     stock_w_fi.ema20,
     stock_w_fi.fi2,
+    stock_w_fi.fi13,
     stock_w_fi.volume
    FROM stock_w_fi
   WHERE ((((((stock_w_fi.dt = ( SELECT max(stock_hist.dt) AS max
-           FROM stock_hist)) AND (stock_w_fi.fi2 < (0)::numeric)) AND (stock_w_fi.fi13 < (0)::numeric)) AND (stock_w_fi.ema10 > stock_w_fi.week_ago_ema10)) AND (stock_w_fi.ema20 > stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
+           FROM stock_hist)) AND (stock_w_fi.fi2 < (0)::numeric)) AND (stock_w_fi.fi13 > (0)::numeric)) AND (stock_w_fi.ema10 > stock_w_fi.week_ago_ema10)) AND (stock_w_fi.ema20 > stock_w_fi.week_ago_ema20)) AND (stock_w_fi.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])));
 
 
 ALTER TABLE advice_up_idx OWNER TO pi;
