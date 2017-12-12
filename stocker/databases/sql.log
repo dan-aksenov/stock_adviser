@@ -1,0 +1,119 @@
+timestamp: 2017-12-12T15:55:08.115000
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2017-12-12T15:55:08.268000
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2017-12-12T15:55:08.407000
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2017-12-12T15:55:08.592000
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2017-12-12T15:55:08.690000
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2017-12-12T15:55:08.813000
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2017-12-12T16:18:15.363000
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2017-12-12T16:19:14.973000
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2017-12-12T16:21:41.292000
+CREATE TABLE "stock_w_fi"(
+    "id" SERIAL PRIMARY KEY,
+    "dt" VARCHAR(512),
+    "ticker" VARCHAR(512),
+    "close" VARCHAR(512),
+    "prev_close" VARCHAR(512),
+    "week_ago_close" VARCHAR(512),
+    "ema10" VARCHAR(512),
+    "prev_ema10" VARCHAR(512),
+    "week_ago_ema10" VARCHAR(512),
+    "ema20" VARCHAR(512),
+    "prev_ema20" VARCHAR(512),
+    "week_ago_ema20" VARCHAR(512),
+    "ao" VARCHAR(512),
+    "prev_ao" VARCHAR(512),
+    "week_ago_ao" VARCHAR(512),
+    "fi2" VARCHAR(512),
+    "fi13" VARCHAR(512),
+    "volume" VARCHAR(512)
+);
+timestamp: 2017-12-12T16:22:16.216000
+CREATE TABLE "stock_w_fi"(
+    "id" SERIAL PRIMARY KEY,
+    "dt" VARCHAR(512),
+    "ticker" VARCHAR(512),
+    "close" VARCHAR(512),
+    "prev_close" VARCHAR(512),
+    "week_ago_close" VARCHAR(512),
+    "ema10" VARCHAR(512),
+    "prev_ema10" VARCHAR(512),
+    "week_ago_ema10" VARCHAR(512),
+    "ema20" VARCHAR(512),
+    "prev_ema20" VARCHAR(512),
+    "week_ago_ema20" VARCHAR(512),
+    "ao" VARCHAR(512),
+    "prev_ao" VARCHAR(512),
+    "week_ago_ao" VARCHAR(512),
+    "fi2" VARCHAR(512),
+    "fi13" VARCHAR(512),
+    "volume" VARCHAR(512)
+);
