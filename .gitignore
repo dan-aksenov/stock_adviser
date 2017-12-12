@@ -4,5 +4,8 @@
 # bak
 *.bak
 
+# log
+*.log
+
 # errors
 stocker/errors/
