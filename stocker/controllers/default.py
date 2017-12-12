@@ -21,7 +21,7 @@ def displayTickersG():
     #default_sort_order=[db.stock_w_fi.ticker]
     #form = SQLFORM.grid(query=query,fields=fields,orderby=default_sort_order)
     #return dict(form=form)
-    grid = SQLFORM.grid(db.stock_w_fi.ticker)
+    grid = SQLFORM.grid(db.stock_w_fi)
     return locals()
 
 # ---- API (example) -----

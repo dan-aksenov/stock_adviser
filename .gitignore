@@ -7,5 +7,6 @@
 # log
 *.log
 
-# errors
+# errors, sessions
 stocker/errors/
+stocker/sessions/

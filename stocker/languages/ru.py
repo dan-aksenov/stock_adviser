@@ -4,6 +4,7 @@
 '!langcode!': 'ru',
 '!langname!': 'Русский',
 '"update" is an optional expression like "field1=\'newvalue\'". You cannot update or delete the results of a JOIN': '"Изменить" - необязательное выражение вида "field1=\'новое значение\'". Результаты операции JOIN нельзя изменить или удалить.',
+'%(nrows)s records found': '%(nrows)s records found',
 '%d days ago': '%d %%{день} тому',
 '%d hours ago': '%d %%{час} тому',
 '%d minutes ago': '%d %%{минуту} тому',
