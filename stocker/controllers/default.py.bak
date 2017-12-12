@@ -10,7 +10,7 @@ def index():
     return dict(message=T('Welcome to web2py!'))
 
 def displayTickers():
-    tuples=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
+    tuples=db().select(distinct=db.stock_w_fi.ticker)
     return dict(tuples=tuples)
 
 # ---- API (example) -----
