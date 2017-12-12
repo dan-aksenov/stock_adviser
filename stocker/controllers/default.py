@@ -10,8 +10,19 @@ def index():
     return dict(message=T('Welcome to web2py!'))
 
 def displayTickers():
+    #query=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
+    #return grid(SQLFORM.grid(query))
     tuples=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
-    return dict(tuples=tuples)
+    return dict(grid=tuples)
+
+def displayTickersG():
+    #query=((db.stock_w_fi.ticker))
+    #fields = (db.stock_w_fi.ticker)
+    #default_sort_order=[db.stock_w_fi.ticker]
+    #form = SQLFORM.grid(query=query,fields=fields,orderby=default_sort_order)
+    #return dict(form=form)
+    grid = SQLFORM.grid(db.stock_w_fi.ticker)
+    return locals()
 
 # ---- API (example) -----
 @auth.requires_login()

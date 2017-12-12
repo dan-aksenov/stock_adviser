@@ -101,6 +101,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE stock_hist (
+    id SERIAL PRIMARY KEY,
     dt date,
     ticker text,
     open double precision,
@@ -118,7 +119,7 @@ ALTER TABLE stock_hist OWNER TO pi;
 --
 
 CREATE VIEW stock_w_ema AS
- SELECT stock_hist.dt,
+ SELECT stock_hist.id, stock_hist.dt,
     stock_hist.ticker,
     stock_hist.close,
     ema(stock_hist.close, 0.1818181818181818) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt) AS ema10,
@@ -136,7 +137,9 @@ ALTER TABLE stock_w_ema OWNER TO pi;
 --
 
 CREATE VIEW stock_w_fi AS
- SELECT stock_w_ema.dt,
+ SELECT 
+    stock_hist.id,
+    stock_w_ema.dt,
     stock_w_ema.ticker,
     stock_w_ema.close,
     lag(stock_w_ema.close) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_close,
