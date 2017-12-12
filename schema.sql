@@ -138,7 +138,7 @@ ALTER TABLE stock_w_ema OWNER TO pi;
 
 CREATE VIEW stock_w_fi AS
  SELECT 
-    stock_hist.id,
+    stock_w_ema.id,
     stock_w_ema.dt,
     stock_w_ema.ticker,
     stock_w_ema.close,
