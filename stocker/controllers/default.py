@@ -9,10 +9,16 @@ def index():
     tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     return dict(tickers=tickers)
 
-def stuff():
-    stuff = "This is stuff!"
-    return dict(message=T(stuff))
+def show():
+    ticker = db.stock_w_fi(request.args(0, cast=int)) or redirect(URL('index'))
+    #db.post.image_id.default = image.id
+    #form = SQLFORM(db.post)
+    #if form.process().accepted:
+    #    response.flash = 'your comment is posted'
+    #comments = db(db.post.image_id == image.id).select()
+    return dict(ticker=ticker)
 
+# <trainings
 def displayTickers():
     #query=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     #return grid(SQLFORM.grid(query))
@@ -31,6 +37,7 @@ def displayTickersG():
 def TickerSelector():
     tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     form = FORM(TR(tickers))
+# /trainings>
 
 # ---- API (example) -----
 @auth.requires_login()
