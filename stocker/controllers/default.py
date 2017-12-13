@@ -9,6 +9,10 @@ def index():
     response.flash = T("Hello World")
     return dict(message=T('Welcome to web2py!'))
 
+def stuff():
+    stuff = "This is stuff!"
+    return dict(message=T(stuff))
+
 def displayTickers():
     #query=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     #return grid(SQLFORM.grid(query))
