@@ -24,6 +24,10 @@ def displayTickersG():
     grid = SQLFORM.grid(db.stock_w_fi)
     return locals()
 
+def TickerSelector():
+    tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
+    form = FORM(TR(tickers))
+
 # ---- API (example) -----
 @auth.requires_login()
 def api_get_user_email():

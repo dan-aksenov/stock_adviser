@@ -52,6 +52,7 @@
 'appadmin is disabled because insecure channel': 'appadmin is disabled because insecure channel',
 'Are you sure you want to delete this object?': 'Вы уверены, что хотите удалить этот объект?',
 'Available Databases and Tables': 'Базы данных и таблицы',
+'Back': 'Back',
 'Buy this book': 'Buy this book',
 "Buy web2py's book": "Buy web2py's book",
 'cache': 'cache',
