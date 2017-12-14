@@ -11,17 +11,20 @@ def index():
 
 def show():
     ticker = request.args[0]
-    c_prices_row = db(db.stock_w_fi.ticker == ticker).select(db.stock_w_fi.close)
-    close_prices = []
+    db_data = db(db.stock_w_fi.ticker == ticker).select(db.stock_w_fi.close,db.stock_w_fi.dt)
 
-    for c_price in c_prices_row:
-        close_prices.append(c_price.close)
+    close_prices = []
+    close_dates = []
+    for row in db_data:
+        close_prices.append(row.close)
+        close_dates.append(row.dt)
 
     response.files.append(URL('default','static/js/pygal-tooltips.min.js'))
     response.headers['Content-Type']='image/svg+xml'
     import pygal
     from pygal.style import CleanStyle
     chart = pygal.Line(style=CleanStyle)
+    chart.x_labels = (close_dates)
     chart.add(ticker, close_prices)
     return chart.render()
 
