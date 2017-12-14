@@ -10,12 +10,15 @@ def index():
     return dict(tickers=tickers)
 
 def show():
-    ticker = db.stock_w_fi(request.args(0, cast=int)) or redirect(URL('index'))
-    #db.post.image_id.default = image.id
-    #form = SQLFORM(db.post)
+    ticker = request.args[0]
+                           #or redirect(URL('index')))
+    #db.stock_w_fi.ticker.default = ticker
+    #ticker=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     #if form.process().accepted:
     #    response.flash = 'your comment is posted'
     #comments = db(db.post.image_id == image.id).select()
+    ticker = db(db.stock_w_fi.ticker == ticker).select()
+    #ticker = request.args[0]
     return dict(ticker=ticker)
 
 # <trainings
