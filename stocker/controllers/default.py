@@ -11,6 +11,22 @@ def index():
 
 def show():
     ticker = request.args[0]
+    c_prices_row = db(db.stock_w_fi.ticker == ticker).select(db.stock_w_fi.close)
+    close_prices = []
+
+    for c_price in c_prices_row:
+        close_prices.append(c_price.close)
+
+    response.files.append(URL('default','static/js/pygal-tooltips.min.js'))
+    response.headers['Content-Type']='image/svg+xml'
+    import pygal
+    from pygal.style import CleanStyle
+    chart = pygal.Line(style=CleanStyle)
+    chart.add(ticker, close_prices)
+    return chart.render()
+
+def show_old():
+    ticker = request.args[0]
                            #or redirect(URL('index')))
     #db.stock_w_fi.ticker.default = ticker
     #ticker=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
