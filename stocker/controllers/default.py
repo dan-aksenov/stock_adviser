@@ -6,6 +6,9 @@
 
 # ---- example index page ----
 def index():
+    return dict(message=T('Welcome to web2py!'))
+
+def tickers():
     tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     return dict(tickers=tickers)
 
@@ -17,6 +20,7 @@ def main_chart():
     close_dates = []
     ema10=[]
     ema20=[]
+
     for row in db_data:
         close_prices.append(row.close)
         close_dates.append(row.dt)
