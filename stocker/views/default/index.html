@@ -2,6 +2,6 @@
 <h1>All MICEX tickers:</h1>
 <ul>
 {{for ticker in tickers:}}
-{{=LI(A(ticker.ticker, _href=URL("main_chart", args=ticker.ticker)))}}
+{{=BEAUTIFY(A(ticker.ticker, _href=URL("main_chart", args=ticker.ticker)))}}
 {{pass}}
 </ul>
