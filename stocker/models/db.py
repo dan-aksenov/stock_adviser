@@ -30,7 +30,7 @@ if not request.env.web2py_runtime_gae:
     # ---------------------------------------------------------------------
     # if NOT running on Google App Engine use SQLite or other DB
     # ---------------------------------------------------------------------
-    db = DAL('postgres://postgres:1@localhost/postgres',migrate=False)
+    db = DAL('postgres://stocker:1@localhost/stocker',migrate=False)
     db.define_table('stock_w_fi',
                     Field('dt'),
                     Field('ticker'),
