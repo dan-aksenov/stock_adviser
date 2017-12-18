@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-# -------------------------------------------------------------------------
-# This is a sample controller
-# this file is released under public domain and you can use without limitations
-# -------------------------------------------------------------------------
 
-# ---- example index page ----
 def index():
     return dict(message=T('Welcome to web2py!'))
 
@@ -57,6 +52,7 @@ def fi2():
     chart.add('fi2', fi2)
     return chart.render()
 
+'''
 def show_old():
     ticker = request.args[0]
                            #or redirect(URL('index')))
@@ -69,7 +65,6 @@ def show_old():
     #ticker = request.args[0]
     return dict(ticker=ticker)
 
-# <trainings
 def displayTickers():
     #query=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     #return grid(SQLFORM.grid(query))
@@ -88,7 +83,7 @@ def displayTickersG():
 def TickerSelector():
     tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
     form = FORM(TR(tickers))
-# /trainings>
+'''
 
 # ---- API (example) -----
 @auth.requires_login()
