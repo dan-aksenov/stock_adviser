@@ -128,8 +128,8 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
-# -------------------------------------------------------------------------  
-# read more at http://dev.w3.org/html5/markup/meta.name.html               
+# -------------------------------------------------------------------------
+# read more at http://dev.w3.org/html5/markup/meta.name.html
 # -------------------------------------------------------------------------
 response.meta.author = configuration.get('app.author')
 response.meta.description = configuration.get('app.description')
@@ -137,7 +137,7 @@ response.meta.keywords = configuration.get('app.keywords')
 response.meta.generator = configuration.get('app.generator')
 
 # -------------------------------------------------------------------------
-# your http://google.com/analytics id                                      
+# your http://google.com/analytics id
 # -------------------------------------------------------------------------
 response.google_analytics_id = configuration.get('google.analytics_id')
 
