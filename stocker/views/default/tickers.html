@@ -3,5 +3,6 @@
 <ul>
 {{for ticker in tickers:}}
 {{=BEAUTIFY(A(ticker.ticker, _href=URL("main_chart", args=ticker.ticker)))}}
+{{=BEAUTIFY(A(ticker.ticker, _href=URL("volume", args=ticker.ticker)))}}
 {{pass}}
 </ul>
