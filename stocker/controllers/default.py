@@ -35,13 +35,15 @@ def main_chart():
 
 def fi2():
     ticker = request.args[0]
-    db_data = db(db.stock_w_fi.ticker == ticker).select(db.stock_w_fi.dt,db.stock_w_fi.fi2)
+    db_data = db(db.stock_w_fi.ticker == ticker).select(db.stock_w_fi.dt,db.stock_w_fi.fi2,db.stock_w_fi.fi13)
 
     close_dates = []
     fi2=[]
+    fi13=[]
 
     for row in db_data:
-        ema10.append(row.fi2)
+        fi2.append(row.fi2)
+        fi13.append(row.fi13)
 
     response.files.append(URL('default','static/js/pygal-tooltips.min.js'))
     response.headers['Content-Type']='image/svg+xml'
@@ -50,6 +52,7 @@ def fi2():
     chart = pygal.Line(style=CleanStyle)
     chart.x_labels = (map(lambda d: d.strftime('%Y-%m-%d'), close_dates))
     chart.add('fi2', fi2)
+    chart.add('fi13', fi13)
     return chart.render()
 
 '''
