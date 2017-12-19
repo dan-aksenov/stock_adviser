@@ -2,6 +2,17 @@
 <h1>All MICEX tickers:</h1>
 <ul>
 {{for ticker in tickers:}}
-{{=LI(CAT(A(ticker.ticker, _href=URL("main_chart", args=ticker.ticker))," ",A("AO", _href=URL("AO", args=ticker.ticker))," ",A("Elder FI", _href=URL("Elder_FI", args=ticker.ticker))," ",A("Volume", _href=URL("volume", args=ticker.ticker))))}}
+{{=TABLE
+    (
+    TR
+    (
+    TD(ticker.ticker),
+    TD(A(ticker.close, _href=URL("main_chart", args=ticker.ticker))),
+    TD(A("AO", _href=URL("AO", args=ticker.ticker))),
+    TD(A("Elder FI", _href=URL("Elder_FI", args=ticker.ticker))),
+    TD(A(ticker.volume, _href=URL("Volume", args=ticker.ticker)))
+    )
+    )
+}}
 {{pass}}
 </ul>

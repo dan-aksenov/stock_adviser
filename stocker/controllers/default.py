@@ -4,7 +4,9 @@ def index():
     return dict(message=T('Welcome to web2py!'))
 
 def tickers():
-    tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
+    # temporary set to constatnt. to be replaced with  last date.
+    tickers = db(db.stock_w_fi.dt == '5-12-2017').select(db.stock_w_fi.volume,db.stock_w_fi.ticker,db.stock_w_fi.close,db.stock_w_fi.dt)
+    #tickers = db().select(db.stock_w_fi.ticker,distinct=db.stock_w_fi.ticker)
     return dict(tickers=tickers)
 
 def main_chart():
