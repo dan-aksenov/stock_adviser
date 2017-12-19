@@ -73,7 +73,7 @@ def AO():
     from pygal.style import CleanStyle
     chart = pygal.Bar(style=CleanStyle)
     chart.x_labels = (map(lambda d: d.strftime('%Y-%m-%d'), close_dates))
-    chart.add('Volume', ao)
+    chart.add('AO', ao)
     return chart.render()
 
 def volume():
@@ -95,40 +95,6 @@ def volume():
     chart.x_labels = (map(lambda d: d.strftime('%Y-%m-%d'), close_dates))
     chart.add('Volume', vol)
     return chart.render()
-
-
-'''
-def show_old():
-    ticker = request.args[0]
-                           #or redirect(URL('index')))
-    #db.stock_w_fi.ticker.default = ticker
-    #ticker=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
-    #if form.process().accepted:
-    #    response.flash = 'your comment is posted'
-    #comments = db(db.post.image_id == image.id).select()
-    ticker = db(db.stock_w_fi.ticker == ticker).select()
-    #ticker = request.args[0]
-    return dict(ticker=ticker)
-
-def displayTickers():
-    #query=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
-    #return grid(SQLFORM.grid(query))
-    tuples=db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
-    return dict(grid=tuples)
-
-def displayTickersG():
-    #query=((db.stock_w_fi.ticker))
-    #fields = (db.stock_w_fi.ticker)
-    #default_sort_order=[db.stock_w_fi.ticker]
-    #form = SQLFORM.grid(query=query,fields=fields,orderby=default_sort_order)
-    #return dict(form=form)
-    grid = SQLFORM.grid(db.stock_w_fi)
-    return locals()
-
-def TickerSelector():
-    tickers = db().select(db.stock_w_fi.ticker, distinct=db.stock_w_fi.ticker)
-    form = FORM(TR(tickers))
-'''
 
 # ---- API (example) -----
 @auth.requires_login()
