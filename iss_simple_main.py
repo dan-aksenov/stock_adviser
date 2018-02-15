@@ -15,6 +15,7 @@
 import sys
 import datetime
 import csv
+
 from iss_simple_client import Config
 from iss_simple_client import MicexAuth
 from iss_simple_client import MicexISSClient
