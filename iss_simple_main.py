@@ -19,9 +19,16 @@ from iss_simple_client import Config
 from iss_simple_client import MicexAuth
 from iss_simple_client import MicexISSClient
 from iss_simple_client import MicexISSDataHandler
+			
+class MyData_print:
+    def __init__(self):
+        self.history = []
 
+    def print_history(self):
+        for sec in self.history:
+            print sec
 
-class MyData:
+class MyData_tofile():
     """ Container that will be used by the handler to store data.
     Kept separately from the handler for scalability purposes: in order
     to differentiate storage and output from the processing.
@@ -30,12 +37,13 @@ class MyData:
         self.history = []
 
     def print_history(self):
-        for sec in self.history:
-            print sec
         with open(outfile,'ab') as resultFile:
             wr = csv.writer(resultFile, delimiter='\t')
             wr.writerows(self.history)
-        
+
+#class MyData_todb():
+#psycopg copy to behere. or separate file?
+			
 class MyDataHandler(MicexISSDataHandler):
     """ This handler will be receiving pieces of data from the ISS client.
     """
@@ -48,15 +56,13 @@ class MyDataHandler(MicexISSDataHandler):
 
 
 def main():
-    """Get current day's data and store it in file."""
-    global outfile
-    outfile = raw_input('filename: ')
+    """Get current day's data and display print it on screen."""
     my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
     my_auth = MicexAuth(my_config)
     """ Current date doesn't work during trade day. Can be run on evening after."""
     now = datetime.datetime.now() - datetime.timedelta(days=1)
     if my_auth.is_real_time():
-        iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
+        iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData_print)
         iss.get_history_securities('stock',
                                    'shares',
                                    'tqbr',
@@ -72,11 +78,12 @@ def get_multiple( days_cnt ):
     delta = now - befoure
     my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
     my_auth = MicexAuth(my_config)
+    #my_data = MyData_tofile(outfile)
     
     for i in range(delta.days + 1):
         dt = befoure + datetime.timedelta(days=i)
         if my_auth.is_real_time():
-            iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
+            iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData_tofile)
             iss.get_history_securities('stock',
                                    'shares',
                                    'tqbr',
