@@ -1,6 +1,7 @@
 from psycopg2 import connect
 import pygal
 from pygal.style import CleanStyle
+import sys
 
 db_name = 'stocker'
 
@@ -12,7 +13,7 @@ def postgres_exec( sql_query ):
         conn = connect( conn_string )
     except:
         print '\nERROR: unable to connect to the database!'
-        #sys.exit()
+        sys.exit()
     cur = conn.cursor()
     cur.execute( sql_query )
     query_results = cur.fetchall()
@@ -21,7 +22,6 @@ def postgres_exec( sql_query ):
     return query_results
 
 def main_chart( ticker ):
-    #web2py's ticker = request.args[0]
     db_data = postgres_exec( "select dt,close,ema10,ema20 from stock_w_fi where ticker = '" + ticker +"'")
 
     close_prices = []
