@@ -6,9 +6,9 @@ import sys
 db_name = 'stocker'
 
 def postgres_exec( sql_query ):
-    ''' Выполенение произвольного sql в базе '''
+    ''' Execute any sql in database '''
     
-    conn_string = 'dbname= ' + db_name + ' user=''postgres'' password=''1'' host=localhost'
+    conn_string = 'dbname= ' + db_name + ' user=''stocker'' password=''1'' host=localhost'
     try:
         conn = connect( conn_string )
     except:
