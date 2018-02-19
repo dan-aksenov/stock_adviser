@@ -37,7 +37,7 @@ def get_data( ticker ):
         ema10.append(row[2])
         ema20.append(row[3])
     
-    return db_data,close_prices,close_dates
+    return db_data,close_prices,close_dates,ema10,ema20
     
 def main_chart( db_data ):    
     close_prices = []

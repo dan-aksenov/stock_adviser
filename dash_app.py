@@ -16,16 +16,19 @@ app.layout = html.Div(children=[
     '''),
 
     dcc.Graph(
-        id='example-graph',
+        id='close+emas chart',
         figure={
             'data': [
-                {'x': a[2],'y': a[1], 'type': 'line', 'name': 'SF'},
+                {'x': a[2],'y': a[1], 'type': 'line', 'name': 'close'},
+                {'x': a[2],'y': a[3], 'type': 'line', 'name': 'ema10'},
+                {'x': a[2],'y': a[4], 'type': 'line', 'name': 'ema20'},
             ],      
             'layout': {
                 'title': 'Dash Data Visualization'
             }
         }
     )
+
 ])
 
 if __name__ == '__main__':
