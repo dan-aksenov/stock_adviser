@@ -9,12 +9,22 @@ app = dash.Dash()
 a = analizer.get_data('SBER')
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='Stocker DSS'),
 
     html.Div(children='''
-        Dash: A web application framework for Python.
+    Stocker DSS 
     '''),
 
+    dcc.Dropdown(
+        id='my-dropdown',
+        options=[
+            {'label': 'Sberbank', 'value': 'SBER'},
+            {'label': 'Gazporm', 'value': 'GAZP'},
+            {'label': 'Yandex', 'value': 'YNDX'}
+        ],
+        value='SBER'
+    ),
+    
     dcc.Graph(
         id='close+emas chart',
         figure={
@@ -24,7 +34,7 @@ app.layout = html.Div(children=[
                 {'x': a[2],'y': a[4], 'type': 'line', 'name': 'ema20'},
             ],      
             'layout': {
-                'title': 'Dash Data Visualization'
+                'title': 'Close and EMA'
             }
         }
     ),
@@ -37,7 +47,7 @@ app.layout = html.Div(children=[
                 {'x': a[2],'y': a[6], 'type': 'line', 'name': 'fi13'},
             ],      
             'layout': {
-                'title': 'Dash Data Visualization'
+                'title': 'Elder FI'
             }
         }
     )
