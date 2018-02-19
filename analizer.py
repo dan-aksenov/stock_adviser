@@ -3,12 +3,12 @@ import pygal
 from pygal.style import CleanStyle
 import sys
 
-db_name = 'stocker'
+# db_name = 'stocker'
 
 def postgres_exec( sql_query ):
     ''' Execute any sql in database '''
     
-    conn_string = 'dbname= ' + db_name + ' user=''stocker'' password=''1'' host=localhost'
+    conn_string = 'dbname=''stocker'' user=''stocker'' password=''1'' host=localhost'
     try:
         conn = connect( conn_string )
     except:
