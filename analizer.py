@@ -30,14 +30,18 @@ def get_data( ticker ):
     close_dates = []
     ema10=[]
     ema20=[]
+    fi2=[]
+    fi13=[]
     
     for row in db_data:
         close_dates.append(row[0])
         close_prices.append(row[1])
         ema10.append(row[2])
         ema20.append(row[3])
+        fi2.append(row[4])
+        fi13.append(row[5])
     
-    return db_data,close_prices,close_dates,ema10,ema20
+    return db_data,close_prices,close_dates,ema10,ema20,fi2,fi13
     
 def main_chart( db_data ):    
     close_prices = []

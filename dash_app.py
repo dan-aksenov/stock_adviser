@@ -27,8 +27,20 @@ app.layout = html.Div(children=[
                 'title': 'Dash Data Visualization'
             }
         }
-    )
+    ),
 
+    dcc.Graph(
+        id='fi',
+        figure={
+            'data': [
+                {'x': a[2],'y': a[5], 'type': 'line', 'name': 'fi2'},
+                {'x': a[2],'y': a[6], 'type': 'line', 'name': 'fi13'},
+            ],      
+            'layout': {
+                'title': 'Dash Data Visualization'
+            }
+        }
+    )
 ])
 
 if __name__ == '__main__':
