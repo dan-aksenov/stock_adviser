@@ -23,15 +23,11 @@ def postgres_exec( sql_query ):
 
 def get_all_tickers():
     db_data = postgres_exec( "select distinct ticker from stock_w_fi ")
-    
     tickers=[]
-    
     for row in db_data:
         tickers.append(row[0])
-        
-    # db_data[0] userd for pygals main chart, while 1-.. used for dash_app.
     return tickers
-	
+    
 def get_data( ticker ):
     db_data = postgres_exec( "select dt,close,ema10,ema20,fi2,fi13, AO,Volume from stock_w_fi where ticker = '" + ticker +"'")
     # select all, and render separately. Additional columns fi2, fi13, AO, Volume

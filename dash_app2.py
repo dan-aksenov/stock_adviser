@@ -9,15 +9,14 @@ import analizer
 
 app = dash.Dash()
 
+tickers = analizer.get_all_tickers()
+
 app.layout = html.Div([
     html.H1('Stock Tickers'),
     dcc.Dropdown(
         id='my-dropdown',
-        options=[
-            {'label': 'SBER', 'value': 'SBER'},
-            {'label': 'GAZP', 'value': 'GAZP'},
-            {'label': 'YNDX', 'value': 'YNDX'}
-        ],
+        options=[{'label': ticker, 'value': ticker		}
+                 for ticker in tickers],
         value='SBER'
     ),
     dcc.Graph(id='close+emas chart')
@@ -35,4 +34,4 @@ def update_graph(selected_dropdown_value):
 			}
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True, host='0.0.0.0')
