@@ -24,8 +24,14 @@ app.layout = html.Div(children=[
         ],
         value='SBER'
     ),
-    
-    dcc.Graph(
+])
+
+@app.callback(Output('my-graph', 'figure'), [Input('my-dropdown', 'value')])
+
+def update_graph(ticker):
+    graphs = []
+
+    graphs.append(dcc.Graph(
         id='close+emas chart',
         figure={
             'data': [
@@ -37,9 +43,9 @@ app.layout = html.Div(children=[
                 'title': 'Close and EMA'
             }
         }
-    ),
+    )),
 
-    dcc.Graph(
+    graphs.append(dcc.Graph(
         id='fi',
         figure={
             'data': [
@@ -50,8 +56,9 @@ app.layout = html.Div(children=[
                 'title': 'Elder FI'
             }
         }
-    )
-])
+    ))
+    
+    return graphs
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
