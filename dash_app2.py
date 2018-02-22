@@ -5,6 +5,8 @@ import dash_html_components as html
 from pandas_datareader import data as web
 from datetime import datetime as dt
 
+import analizer
+
 app = dash.Dash()
 
 app.layout = html.Div([
@@ -12,26 +14,25 @@ app.layout = html.Div([
     dcc.Dropdown(
         id='my-dropdown',
         options=[
-            {'label': 'Coke', 'value': 'COKE'},
-            {'label': 'Tesla', 'value': 'TSLA'},
-            {'label': 'Apple', 'value': 'AAPL'}
+            {'label': 'SBER', 'value': 'SBER'},
+            {'label': 'GAZP', 'value': 'GAZP'},
+            {'label': 'YNDX', 'value': 'YNDX'}
         ],
-        value='COKE'
+        value='SBER'
     ),
-    dcc.Graph(id='my-graph')
+    dcc.Graph(id='close+emas chart')
 ])
 
-@app.callback(Output('my-graph', 'figure'), [Input('my-dropdown', 'value')])
+@app.callback(Output('close+emas chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_graph(selected_dropdown_value):
-    df = web.DataReader(
-        selected_dropdown_value, data_source='google',
-        start=dt(2017, 1, 1), end=dt.now())
+    dbdata = analizer.get_data( selected_dropdown_value )
     return {
-        'data': [{
-            'x': df.index,
-            'y': df.Close
-        }]
-    }
+	        'data': [
+                {'x': dbdata[2],'y': dbdata[1], 'type': 'line', 'name': 'close'},
+                {'x': dbdata[2],'y': dbdata[3], 'type': 'line', 'name': 'ema10'},
+                {'x': dbdata[2],'y': dbdata[4], 'type': 'line', 'name': 'ema20'},
+                ] 
+			}
 
 if __name__ == '__main__':
     app.run_server()
