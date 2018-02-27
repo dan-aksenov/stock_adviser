@@ -25,7 +25,7 @@ app.layout = html.Div([
 @app.callback(Output('close+emas chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
-    return {
+    return {    
 	        'data': [
                 {'x': stock_data[2],'y': stock_data[1], 'type': 'line', 'name': 'close'},
                 {'x': stock_data[2],'y': stock_data[3], 'type': 'line', 'name': 'ema10'},
