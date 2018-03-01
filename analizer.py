@@ -50,7 +50,31 @@ def get_data( ticker ):
     
     # db_data[0] userd for pygals main chart, while 1-.. used for dash_app.
     return db_data,close_prices,close_dates,ema10,ema20,fi2,fi13
+ 
+def get_data_1( ticker ):
+    db_data = postgres_exec( "select dt,close,open,high,low from stock_hist where ticker = '" + ticker +"'")
+    #get data from table to get open,close,
+	
+    close_prices = []
+    close_dates = []
+    ema10=[]
+    ema20=[]
+    fi2=[]
+    fi13=[]
+    open_prices = []
+    high_prices = []
+    low_prices = []
     
+    for row in db_data:
+        close_dates.append(row[0])
+        close_prices.append(row[1])
+        open_prices.append(row[2])
+        high_prices.append(row[3])
+        low_prices.append(row[4])
+    
+    # db_data[0] userd for pygals main chart, while 1-.. used for dash_app.
+    return close_dates,open_prices,close_prices,high_prices,low_prices
+ 
 def main_chart( db_data ):    
     close_prices = []
     close_dates = []

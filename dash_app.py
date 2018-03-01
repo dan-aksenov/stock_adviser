@@ -54,7 +54,7 @@ app.layout = html.Div([
     ]),
     dcc.Dropdown(
         id='stock-ticker-input',
-        options=[{'label': ticker, 'value': ticker		}
+        options=[{'label': ticker, 'value': ticker        }
                  for ticker in tickers],
         value='SBER'
     ),
@@ -74,54 +74,31 @@ def bbands(price, window_size=10, num_of_std=5):
 @app.callback(
     dash.dependencies.Output('graphs','children'),
     [dash.dependencies.Input('stock-ticker-input', 'value')])
-def update_graph(tickers):
+def update_graph( ticker ):
+    df = analizer.get_data_1( ticker )
     graphs = []
-    for i, ticker in enumerate(tickers):
-        '''
-		#'
-		try:
-            df = DataReader(ticker, 'google',
-                            dt.datetime(2017, 1, 1),
-                            dt.datetime.now())
-        except:
-            graphs.append(html.H3(
-                'Data is not available for {}'.format(ticker),
-                style={'marginTop': 20, 'marginBottom': 20}
-            ))
-            continue
-        ''' 
-        candlestick = {
-            'x': df.index,
-            'open': df['Open'],
-            'high': df['High'],
-            'low': df['Low'],
-            'close': df['Close'],
-            'type': 'candlestick',
-            'name': ticker,
-            'legendgroup': ticker,
-            'increasing': {'line': {'color': colorscale[0]}},
-            'decreasing': {'line': {'color': colorscale[1]}}
+    candlestick = {
+        'x': df[0],
+        'open': df[1],
+        'high': df[3],
+        'low': df[4],
+        'close': df[2],
+        'type': 'candlestick',
+        'name': ticker,
+        'legendgroup': ticker,
+        'increasing': {'line': {'color': colorscale[0]}},
+        'decreasing': {'line': {'color': colorscale[1]}}
         }
-        bb_bands = bbands(df.Close)
-        bollinger_traces = [{
-            'x': df.index, 'y': y,
-            'type': 'scatter', 'mode': 'lines',
-            'line': {'width': 1, 'color': colorscale[(i*2) % len(colorscale)]},
-            'hoverinfo': 'none',
-            'legendgroup': ticker,
-            'showlegend': True if i == 0 else False,
-            'name': '{} - bollinger bands'.format(ticker)
-        } for i, y in enumerate(bb_bands)]
-        graphs.append(dcc.Graph(
-            id=ticker,
-            figure={
-                'data': [candlestick] + bollinger_traces,
-                'layout': {
-                    'margin': {'b': 0, 'r': 10, 'l': 60, 't': 0},
-                    'legend': {'x': 0}
-                }
+    graphs.append(dcc.Graph(
+        id=ticker,
+        figure={
+            'data': [candlestick],
+            'layout': {
+                'margin': {'b': 0, 'r': 10, 'l': 60, 't': 0},
+                'legend': {'x': 0}
             }
-        ))
+        }
+    ))
 
     return graphs
 
