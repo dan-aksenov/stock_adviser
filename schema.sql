@@ -9,54 +9,55 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-SET search_path = public, pg_catalog;
+SET search_path = stocker, pg_catalog;
 
-ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_group_id_fkey;
-ALTER TABLE ONLY public.auth_membership DROP CONSTRAINT auth_membership_user_id_fkey;
-ALTER TABLE ONLY public.auth_membership DROP CONSTRAINT auth_membership_group_id_fkey;
-ALTER TABLE ONLY public.auth_event DROP CONSTRAINT auth_event_user_id_fkey;
-ALTER TABLE ONLY public.auth_cas DROP CONSTRAINT auth_cas_user_id_fkey;
-ALTER TABLE ONLY public.stock_hist DROP CONSTRAINT stock_hist_pkey;
-ALTER TABLE ONLY public.image DROP CONSTRAINT image_pkey;
-ALTER TABLE ONLY public.auth_user DROP CONSTRAINT auth_user_pkey;
-ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_pkey;
-ALTER TABLE ONLY public.auth_membership DROP CONSTRAINT auth_membership_pkey;
-ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_pkey;
-ALTER TABLE ONLY public.auth_event DROP CONSTRAINT auth_event_pkey;
-ALTER TABLE ONLY public.auth_cas DROP CONSTRAINT auth_cas_pkey;
-ALTER TABLE public.stock_hist ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.image ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_user ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_permission ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_membership ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_group ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_event ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.auth_cas ALTER COLUMN id DROP DEFAULT;
-DROP VIEW public.stock_w_fi_2;
-DROP VIEW public.stock_w_fi;
-DROP VIEW public.stock_w_ema;
-DROP SEQUENCE public.stock_hist_id_seq;
-DROP TABLE public.stock_hist;
-DROP SEQUENCE public.image_id_seq;
-DROP TABLE public.image;
-DROP SEQUENCE public.auth_user_id_seq;
-DROP TABLE public.auth_user;
-DROP SEQUENCE public.auth_permission_id_seq;
-DROP TABLE public.auth_permission;
-DROP SEQUENCE public.auth_membership_id_seq;
-DROP TABLE public.auth_membership;
-DROP SEQUENCE public.auth_group_id_seq;
-DROP TABLE public.auth_group;
-DROP SEQUENCE public.auth_event_id_seq;
-DROP TABLE public.auth_event;
-DROP SEQUENCE public.auth_cas_id_seq;
-DROP TABLE public.auth_cas;
-DROP AGGREGATE public.ema(double precision, numeric);
-DROP AGGREGATE public.ema(numeric);
-DROP FUNCTION public.ema_func(state numeric, inval numeric, alpha numeric);
-DROP FUNCTION public.ema_func(state numeric, inval double precision, alpha numeric);
-DROP FUNCTION public.ema_func(numeric, numeric);
+ALTER TABLE ONLY stocker.auth_permission DROP CONSTRAINT auth_permission_group_id_fkey;
+ALTER TABLE ONLY stocker.auth_membership DROP CONSTRAINT auth_membership_user_id_fkey;
+ALTER TABLE ONLY stocker.auth_membership DROP CONSTRAINT auth_membership_group_id_fkey;
+ALTER TABLE ONLY stocker.auth_event DROP CONSTRAINT auth_event_user_id_fkey;
+ALTER TABLE ONLY stocker.auth_cas DROP CONSTRAINT auth_cas_user_id_fkey;
+ALTER TABLE ONLY stocker.stock_hist DROP CONSTRAINT stock_hist_pkey;
+ALTER TABLE ONLY stocker.image DROP CONSTRAINT image_pkey;
+ALTER TABLE ONLY stocker.auth_user DROP CONSTRAINT auth_user_pkey;
+ALTER TABLE ONLY stocker.auth_permission DROP CONSTRAINT auth_permission_pkey;
+ALTER TABLE ONLY stocker.auth_membership DROP CONSTRAINT auth_membership_pkey;
+ALTER TABLE ONLY stocker.auth_group DROP CONSTRAINT auth_group_pkey;
+ALTER TABLE ONLY stocker.auth_event DROP CONSTRAINT auth_event_pkey;
+ALTER TABLE ONLY stocker.auth_cas DROP CONSTRAINT auth_cas_pkey;
+ALTER TABLE stocker.stock_hist ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.image ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_user ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_permission ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_membership ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_group ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_event ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE stocker.auth_cas ALTER COLUMN id DROP DEFAULT;
+DROP VIEW stocker.stock_w_fi_2;
+DROP VIEW stocker.stock_w_fi;
+DROP VIEW stocker.stock_w_ema;
+DROP SEQUENCE stocker.stock_hist_id_seq;
+DROP TABLE stocker.stock_hist;
+DROP SEQUENCE stocker.image_id_seq;
+DROP TABLE stocker.image;
+DROP SEQUENCE stocker.auth_user_id_seq;
+DROP TABLE stocker.auth_user;
+DROP SEQUENCE stocker.auth_permission_id_seq;
+DROP TABLE stocker.auth_permission;
+DROP SEQUENCE stocker.auth_membership_id_seq;
+DROP TABLE stocker.auth_membership;
+DROP SEQUENCE stocker.auth_group_id_seq;
+DROP TABLE stocker.auth_group;
+DROP SEQUENCE stocker.auth_event_id_seq;
+DROP TABLE stocker.auth_event;
+DROP SEQUENCE stocker.auth_cas_id_seq;
+DROP TABLE stocker.auth_cas;
+DROP AGGREGATE stocker.ema(double precision, numeric);
+DROP AGGREGATE stocker.ema(numeric);
+DROP FUNCTION stocker.ema_func(state numeric, inval numeric, alpha numeric);
+DROP FUNCTION stocker.ema_func(state numeric, inval double precision, alpha numeric);
+DROP FUNCTION stocker.ema_func(numeric, numeric);
 DROP EXTENSION plpgsql;
+DROP SCHEMA stocker;
 DROP SCHEMA public;
 --
 -- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
@@ -75,6 +76,15 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
+-- Name: stocker; Type: SCHEMA; Schema: -; Owner: pi
+--
+
+CREATE SCHEMA stocker;
+
+
+ALTER SCHEMA stocker OWNER TO pi;
+
+--
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -88,10 +98,10 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
+SET search_path = stocker, pg_catalog;
 
 --
--- Name: ema_func(numeric, numeric); Type: FUNCTION; Schema: public; Owner: stocker
+-- Name: ema_func(numeric, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
 CREATE FUNCTION ema_func(numeric, numeric) RETURNS numeric
@@ -110,10 +120,10 @@ end
 $_$;
 
 
-ALTER FUNCTION public.ema_func(numeric, numeric) OWNER TO stocker;
+ALTER FUNCTION stocker.ema_func(numeric, numeric) OWNER TO stocker;
 
 --
--- Name: ema_func(numeric, double precision, numeric); Type: FUNCTION; Schema: public; Owner: stocker
+-- Name: ema_func(numeric, double precision, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
 CREATE FUNCTION ema_func(state numeric, inval double precision, alpha numeric) RETURNS numeric
@@ -128,10 +138,10 @@ end
 $$;
 
 
-ALTER FUNCTION public.ema_func(state numeric, inval double precision, alpha numeric) OWNER TO stocker;
+ALTER FUNCTION stocker.ema_func(state numeric, inval double precision, alpha numeric) OWNER TO stocker;
 
 --
--- Name: ema_func(numeric, numeric, numeric); Type: FUNCTION; Schema: public; Owner: stocker
+-- Name: ema_func(numeric, numeric, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
 CREATE FUNCTION ema_func(state numeric, inval numeric, alpha numeric) RETURNS numeric
@@ -146,38 +156,38 @@ end
 $$;
 
 
-ALTER FUNCTION public.ema_func(state numeric, inval numeric, alpha numeric) OWNER TO stocker;
+ALTER FUNCTION stocker.ema_func(state numeric, inval numeric, alpha numeric) OWNER TO stocker;
 
 --
--- Name: ema(numeric); Type: AGGREGATE; Schema: public; Owner: stocker
+-- Name: ema(numeric); Type: AGGREGATE; Schema: stocker; Owner: stocker
 --
 
 CREATE AGGREGATE ema(numeric) (
-    SFUNC = public.ema_func,
+    SFUNC = stocker.ema_func,
     STYPE = numeric
 );
 
 
-ALTER AGGREGATE public.ema(numeric) OWNER TO stocker;
+ALTER AGGREGATE stocker.ema(numeric) OWNER TO stocker;
 
 --
--- Name: ema(double precision, numeric); Type: AGGREGATE; Schema: public; Owner: stocker
+-- Name: ema(double precision, numeric); Type: AGGREGATE; Schema: stocker; Owner: stocker
 --
 
 CREATE AGGREGATE ema(double precision, numeric) (
-    SFUNC = public.ema_func,
+    SFUNC = stocker.ema_func,
     STYPE = numeric
 );
 
 
-ALTER AGGREGATE public.ema(double precision, numeric) OWNER TO stocker;
+ALTER AGGREGATE stocker.ema(double precision, numeric) OWNER TO stocker;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: auth_cas; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_cas; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_cas (
@@ -193,7 +203,7 @@ CREATE TABLE auth_cas (
 ALTER TABLE auth_cas OWNER TO stocker;
 
 --
--- Name: auth_cas_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_cas_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_cas_id_seq
@@ -207,14 +217,14 @@ CREATE SEQUENCE auth_cas_id_seq
 ALTER TABLE auth_cas_id_seq OWNER TO stocker;
 
 --
--- Name: auth_cas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_cas_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_cas_id_seq OWNED BY auth_cas.id;
 
 
 --
--- Name: auth_event; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_event; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_event (
@@ -230,7 +240,7 @@ CREATE TABLE auth_event (
 ALTER TABLE auth_event OWNER TO stocker;
 
 --
--- Name: auth_event_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_event_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_event_id_seq
@@ -244,14 +254,14 @@ CREATE SEQUENCE auth_event_id_seq
 ALTER TABLE auth_event_id_seq OWNER TO stocker;
 
 --
--- Name: auth_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_event_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_event_id_seq OWNED BY auth_event.id;
 
 
 --
--- Name: auth_group; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_group; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_group (
@@ -264,7 +274,7 @@ CREATE TABLE auth_group (
 ALTER TABLE auth_group OWNER TO stocker;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_group_id_seq
@@ -278,14 +288,14 @@ CREATE SEQUENCE auth_group_id_seq
 ALTER TABLE auth_group_id_seq OWNER TO stocker;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
 
 
 --
--- Name: auth_membership; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_membership; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_membership (
@@ -298,7 +308,7 @@ CREATE TABLE auth_membership (
 ALTER TABLE auth_membership OWNER TO stocker;
 
 --
--- Name: auth_membership_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_membership_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_membership_id_seq
@@ -312,14 +322,14 @@ CREATE SEQUENCE auth_membership_id_seq
 ALTER TABLE auth_membership_id_seq OWNER TO stocker;
 
 --
--- Name: auth_membership_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_membership_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_membership_id_seq OWNED BY auth_membership.id;
 
 
 --
--- Name: auth_permission; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_permission; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_permission (
@@ -334,7 +344,7 @@ CREATE TABLE auth_permission (
 ALTER TABLE auth_permission OWNER TO stocker;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_permission_id_seq
@@ -348,14 +358,14 @@ CREATE SEQUENCE auth_permission_id_seq
 ALTER TABLE auth_permission_id_seq OWNER TO stocker;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
 
 
 --
--- Name: auth_user; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_user; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE auth_user (
@@ -373,7 +383,7 @@ CREATE TABLE auth_user (
 ALTER TABLE auth_user OWNER TO stocker;
 
 --
--- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE auth_user_id_seq
@@ -387,14 +397,14 @@ CREATE SEQUENCE auth_user_id_seq
 ALTER TABLE auth_user_id_seq OWNER TO stocker;
 
 --
--- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
 
 
 --
--- Name: image; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: image; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE image (
@@ -407,7 +417,7 @@ CREATE TABLE image (
 ALTER TABLE image OWNER TO stocker;
 
 --
--- Name: image_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: image_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE image_id_seq
@@ -421,14 +431,14 @@ CREATE SEQUENCE image_id_seq
 ALTER TABLE image_id_seq OWNER TO stocker;
 
 --
--- Name: image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: image_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE image_id_seq OWNED BY image.id;
 
 
 --
--- Name: stock_hist; Type: TABLE; Schema: public; Owner: stocker; Tablespace: 
+-- Name: stock_hist; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE stock_hist (
@@ -446,7 +456,7 @@ CREATE TABLE stock_hist (
 ALTER TABLE stock_hist OWNER TO stocker;
 
 --
--- Name: stock_hist_id_seq; Type: SEQUENCE; Schema: public; Owner: stocker
+-- Name: stock_hist_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
 CREATE SEQUENCE stock_hist_id_seq
@@ -460,14 +470,14 @@ CREATE SEQUENCE stock_hist_id_seq
 ALTER TABLE stock_hist_id_seq OWNER TO stocker;
 
 --
--- Name: stock_hist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stocker
+-- Name: stock_hist_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
 ALTER SEQUENCE stock_hist_id_seq OWNED BY stock_hist.id;
 
 
 --
--- Name: stock_w_ema; Type: VIEW; Schema: public; Owner: stocker
+-- Name: stock_w_ema; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW stock_w_ema AS
@@ -489,7 +499,7 @@ CREATE VIEW stock_w_ema AS
 ALTER TABLE stock_w_ema OWNER TO stocker;
 
 --
--- Name: stock_w_fi; Type: VIEW; Schema: public; Owner: stocker
+-- Name: stock_w_fi; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW stock_w_fi AS
@@ -518,7 +528,7 @@ CREATE VIEW stock_w_fi AS
 ALTER TABLE stock_w_fi OWNER TO stocker;
 
 --
--- Name: stock_w_fi_2; Type: VIEW; Schema: public; Owner: stocker
+-- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW stock_w_fi_2 AS
@@ -542,63 +552,63 @@ CREATE VIEW stock_w_fi_2 AS
 ALTER TABLE stock_w_fi_2 OWNER TO stocker;
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_cas ALTER COLUMN id SET DEFAULT nextval('auth_cas_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_event ALTER COLUMN id SET DEFAULT nextval('auth_event_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_membership ALTER COLUMN id SET DEFAULT nextval('auth_membership_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY image ALTER COLUMN id SET DEFAULT nextval('image_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stocker
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY stock_hist ALTER COLUMN id SET DEFAULT nextval('stock_hist_id_seq'::regclass);
 
 
 --
--- Name: auth_cas_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_cas_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_cas
@@ -606,7 +616,7 @@ ALTER TABLE ONLY auth_cas
 
 
 --
--- Name: auth_event_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_event_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_event
@@ -614,7 +624,7 @@ ALTER TABLE ONLY auth_event
 
 
 --
--- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_group
@@ -622,7 +632,7 @@ ALTER TABLE ONLY auth_group
 
 
 --
--- Name: auth_membership_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_membership_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_membership
@@ -630,7 +640,7 @@ ALTER TABLE ONLY auth_membership
 
 
 --
--- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_permission
@@ -638,7 +648,7 @@ ALTER TABLE ONLY auth_permission
 
 
 --
--- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY auth_user
@@ -646,7 +656,7 @@ ALTER TABLE ONLY auth_user
 
 
 --
--- Name: image_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: image_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY image
@@ -654,7 +664,7 @@ ALTER TABLE ONLY image
 
 
 --
--- Name: stock_hist_pkey; Type: CONSTRAINT; Schema: public; Owner: stocker; Tablespace: 
+-- Name: stock_hist_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY stock_hist
@@ -662,7 +672,7 @@ ALTER TABLE ONLY stock_hist
 
 
 --
--- Name: auth_cas_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: stocker
+-- Name: auth_cas_user_id_fkey; Type: FK CONSTRAINT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_cas
@@ -670,7 +680,7 @@ ALTER TABLE ONLY auth_cas
 
 
 --
--- Name: auth_event_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: stocker
+-- Name: auth_event_user_id_fkey; Type: FK CONSTRAINT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_event
@@ -678,7 +688,7 @@ ALTER TABLE ONLY auth_event
 
 
 --
--- Name: auth_membership_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: stocker
+-- Name: auth_membership_group_id_fkey; Type: FK CONSTRAINT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_membership
@@ -686,7 +696,7 @@ ALTER TABLE ONLY auth_membership
 
 
 --
--- Name: auth_membership_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: stocker
+-- Name: auth_membership_user_id_fkey; Type: FK CONSTRAINT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_membership
@@ -694,7 +704,7 @@ ALTER TABLE ONLY auth_membership
 
 
 --
--- Name: auth_permission_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: stocker
+-- Name: auth_permission_group_id_fkey; Type: FK CONSTRAINT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY auth_permission
@@ -709,6 +719,17 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- Name: stocker; Type: ACL; Schema: -; Owner: pi
+--
+
+REVOKE ALL ON SCHEMA stocker FROM PUBLIC;
+REVOKE ALL ON SCHEMA stocker FROM pi;
+GRANT ALL ON SCHEMA stocker TO pi;
+GRANT ALL ON SCHEMA stocker TO postgres;
+GRANT ALL ON SCHEMA stocker TO PUBLIC;
 
 
 --
