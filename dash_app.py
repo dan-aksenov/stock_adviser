@@ -1,64 +1,143 @@
-# -*- coding: utf-8 -*-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+
+import colorlover as cl
+import datetime as dt
+import flask
+from flask_cors import CORS
+import os
+import pandas as pd
+from pandas_datareader.data import DataReader
+import time
+
 import analizer
 
-app = dash.Dash()
+app = dash.Dash(
+    'stock-tickers',
+    url_base_pathname='/dash/gallery/stock-tickers/')
+server = app.server
+CORS(server)
 
-a = analizer.get_data('SBER')
+tickers = analizer.get_all_tickers()
 
-app.layout = html.Div(children=[
-    html.H1(children='Stocker DSS'),
+if 'DYNO' in os.environ:
+    app.config.routes_pathname_prefix = '/dash/gallery/stock-tickers/'
+    app.config.requests_pathname_prefix = 'https://dash-stock-tickers.herokuapp.com/dash/gallery/stock-tickers/'
 
-    html.Div(children='''
-    Stocker DSS 
-    '''),
+app.scripts.config.serve_locally = False
+dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-finance-1.28.0.min.js'
 
+colorscale = cl.scales['9']['qual']['Paired']
+
+#'df_symbol = pd.read_csv('tickers.csv')
+
+app.layout = html.Div([
+    html.Div([
+        html.H2('Google Finance Explorer',
+                style={'display': 'inline',
+                       'float': 'left',
+                       'font-size': '2.65em',
+                       'margin-left': '7px',
+                       'font-weight': 'bolder',
+                       'font-family': 'Product Sans',
+                       'color': "rgba(117, 117, 117, 0.95)",
+                       'margin-top': '20px',
+                       'margin-bottom': '0'
+                       }),
+        html.Img(src="https://s3-us-west-1.amazonaws.com/plotly-tutorials/logo/new-branding/dash-logo-by-plotly-stripe.png",
+                style={
+                    'height': '100px',
+                    'float': 'right'
+                },
+        ),
+    ]),
     dcc.Dropdown(
-        id='my-dropdown',
-        options=[
-            {'label': 'Sberbank', 'value': 'SBER'},
-            {'label': 'Gazporm', 'value': 'GAZP'},
-            {'label': 'Yandex', 'value': 'YNDX'}
-        ],
+        id='stock-ticker-input',
+        options=[{'label': ticker, 'value': ticker		}
+                 for ticker in tickers],
         value='SBER'
     ),
-])
+    html.Div(id='graphs')
+], className="container")
 
-@app.callback(Output('my-graph', 'figure'), [Input('my-dropdown', 'value')])
+'''
+#'
+def bbands(price, window_size=10, num_of_std=5):
+    rolling_mean = price.rolling(window=window_size).mean()
+    rolling_std  = price.rolling(window=window_size).std()
+    upper_band = rolling_mean + (rolling_std*num_of_std)
+    lower_band = rolling_mean - (rolling_std*num_of_std)
+    return rolling_mean, upper_band, lower_band
+'''
 
-def update_graph(ticker):
+@app.callback(
+    dash.dependencies.Output('graphs','children'),
+    [dash.dependencies.Input('stock-ticker-input', 'value')])
+def update_graph(tickers):
     graphs = []
-
-    graphs.append(dcc.Graph(
-        id='close+emas chart',
-        figure={
-            'data': [
-                {'x': a[2],'y': a[1], 'type': 'line', 'name': 'close'},
-                {'x': a[2],'y': a[3], 'type': 'line', 'name': 'ema10'},
-                {'x': a[2],'y': a[4], 'type': 'line', 'name': 'ema20'},
-            ],      
-            'layout': {
-                'title': 'Close and EMA'
-            }
+    for i, ticker in enumerate(tickers):
+        '''
+		#'
+		try:
+            df = DataReader(ticker, 'google',
+                            dt.datetime(2017, 1, 1),
+                            dt.datetime.now())
+        except:
+            graphs.append(html.H3(
+                'Data is not available for {}'.format(ticker),
+                style={'marginTop': 20, 'marginBottom': 20}
+            ))
+            continue
+        ''' 
+        candlestick = {
+            'x': df.index,
+            'open': df['Open'],
+            'high': df['High'],
+            'low': df['Low'],
+            'close': df['Close'],
+            'type': 'candlestick',
+            'name': ticker,
+            'legendgroup': ticker,
+            'increasing': {'line': {'color': colorscale[0]}},
+            'decreasing': {'line': {'color': colorscale[1]}}
         }
-    )),
-
-    graphs.append(dcc.Graph(
-        id='fi',
-        figure={
-            'data': [
-                {'x': a[2],'y': a[5], 'type': 'line', 'name': 'fi2'},
-                {'x': a[2],'y': a[6], 'type': 'line', 'name': 'fi13'},
-            ],      
-            'layout': {
-                'title': 'Elder FI'
+        bb_bands = bbands(df.Close)
+        bollinger_traces = [{
+            'x': df.index, 'y': y,
+            'type': 'scatter', 'mode': 'lines',
+            'line': {'width': 1, 'color': colorscale[(i*2) % len(colorscale)]},
+            'hoverinfo': 'none',
+            'legendgroup': ticker,
+            'showlegend': True if i == 0 else False,
+            'name': '{} - bollinger bands'.format(ticker)
+        } for i, y in enumerate(bb_bands)]
+        graphs.append(dcc.Graph(
+            id=ticker,
+            figure={
+                'data': [candlestick] + bollinger_traces,
+                'layout': {
+                    'margin': {'b': 0, 'r': 10, 'l': 60, 't': 0},
+                    'legend': {'x': 0}
+                }
             }
-        }
-    ))
-    
+        ))
+
     return graphs
 
+
+external_css = ["https://fonts.googleapis.com/css?family=Product+Sans:400,400i,700,700i",
+                "https://cdn.rawgit.com/plotly/dash-app-stylesheets/2cc54b8c03f4126569a3440aae611bbef1d7a5dd/stylesheet.css"]
+
+for css in external_css:
+    app.css.append_css({"external_url": css})
+
+
+if 'DYNO' in os.environ:
+    app.scripts.append_script({
+        'external_url': 'https://cdn.rawgit.com/chriddyp/ca0d8f02a1659981a0ea7f013a378bbd/raw/e79f3f789517deec58f41251f7dbb6bee72c44ab/plotly_ga.js'
+    })
+
+
 if __name__ == '__main__':
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True)
