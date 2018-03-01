@@ -30,8 +30,6 @@ dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-finance-1.28.0.min
 
 colorscale = cl.scales['9']['qual']['Paired']
 
-#'df_symbol = pd.read_csv('tickers.csv')
-
 app.layout = html.Div([
     html.Div([
         html.H2('Google Finance Explorer',
@@ -60,16 +58,6 @@ app.layout = html.Div([
     ),
     html.Div(id='graphs')
 ], className="container")
-
-'''
-#'
-def bbands(price, window_size=10, num_of_std=5):
-    rolling_mean = price.rolling(window=window_size).mean()
-    rolling_std  = price.rolling(window=window_size).std()
-    upper_band = rolling_mean + (rolling_std*num_of_std)
-    lower_band = rolling_mean - (rolling_std*num_of_std)
-    return rolling_mean, upper_band, lower_band
-'''
 
 @app.callback(
     dash.dependencies.Output('graphs','children'),
@@ -117,4 +105,4 @@ if 'DYNO' in os.environ:
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='0.0.0.0')
