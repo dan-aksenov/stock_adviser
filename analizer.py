@@ -27,8 +27,39 @@ def get_all_tickers():
     for row in db_data:
         tickers.append(row[0])
     return tickers
-    
+ 
 def get_data( ticker ):
+    db_data = postgres_exec( "select dt,open,close,low,high,ema10,ema20,fi2,fi13,AO,Volume from stock_w_fi where ticker = '" + ticker +"'")
+    
+    close_dates = []
+    open_prices = []
+    close_prices = []
+    low_prices = []
+    high_prices = []
+    ema10= []
+    ema20= []
+    fi2= []
+    fi13 =[]
+    ao = []
+    volume= []
+    
+    for row in db_data:
+        close_dates.append(row[0])
+        open_prices.append(row[1])
+        close_prices.append(row[2])
+        low_prices.append(row[3])
+        high_prices.append(row[4])
+        ema10.append(row[5])
+        ema20.append(row[6])
+        fi2.append(row[7])
+        fi13.append(row[8])
+        ao.append(row[9])
+        volume.append(row[10])
+    
+    # 0 date, 1 open, 2 close, 3 low, 4 high, 5 ema10, 6 ema20, 7 fi2, 8 fi12, 9 ao, 10 volume
+    return close_dates,open_prices,close_prices,low_prices,high_prices,ema10,ema20,fi2,fi13,ao,volume
+
+def get_data_old( ticker ):
     db_data = postgres_exec( "select dt,close,ema10,ema20,fi2,fi13, AO,Volume from stock_w_fi where ticker = '" + ticker +"'")
     # select all, and render separately. Additional columns fi2, fi13, AO, Volume
     # line chart for FI, bar for Volume and AO
@@ -49,32 +80,8 @@ def get_data( ticker ):
         fi13.append(row[5])
     
     # db_data[0] userd for pygals main chart, while 1-.. used for dash_app.
-    return db_data,close_prices,close_dates,ema10,ema20,fi2,fi13
- 
-def get_data_1( ticker ):
-    db_data = postgres_exec( "select dt,close,open,high,low from stock_hist where ticker = '" + ticker +"'")
-    #get data from table to get open,close,
-	
-    close_prices = []
-    close_dates = []
-    ema10=[]
-    ema20=[]
-    fi2=[]
-    fi13=[]
-    open_prices = []
-    high_prices = []
-    low_prices = []
+    return db_data,close_prices,close_dates,ema10,ema20,fi2,fi13    
     
-    for row in db_data:
-        close_dates.append(row[0])
-        close_prices.append(row[1])
-        open_prices.append(row[2])
-        high_prices.append(row[3])
-        low_prices.append(row[4])
-    
-    # db_data[0] userd for pygals main chart, while 1-.. used for dash_app.
-    return close_dates,open_prices,close_prices,high_prices,low_prices
- 
 def main_chart( db_data ):    
     close_prices = []
     close_dates = []

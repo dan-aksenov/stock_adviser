@@ -28,9 +28,9 @@ def update_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     graph_data = {    
             'data': [
-                {'x': stock_data[2],'y': stock_data[1], 'type': 'line', 'name': 'close'},
-                {'x': stock_data[2],'y': stock_data[3], 'type': 'line', 'name': 'ema10'},
-                {'x': stock_data[2],'y': stock_data[4], 'type': 'line', 'name': 'ema20'},
+                {'x': stock_data[0],'y': stock_data[2], 'type': 'line', 'name': 'close'},
+                {'x': stock_data[0],'y': stock_data[5], 'type': 'line', 'name': 'ema10'},
+                {'x': stock_data[0],'y': stock_data[6], 'type': 'line', 'name': 'ema20'},
                 ] 
             }
     graph = dcc.Graph(
