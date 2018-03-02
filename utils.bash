@@ -1,5 +1,5 @@
 # Utilities scripts from stocker database recreate.
-pg_dump --format plain --schema="stocker" --clean --schema-only --verbose --file schema.sql stocker
+pg_dump --format plain --schema="stocker" --schema-only --verbose --file schema.sql stocker
 
 psql -f schema.sql -U stocker stocker
 
