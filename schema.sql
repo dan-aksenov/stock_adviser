@@ -2,10 +2,9 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.5
-
--- Started on 2018-03-02 17:31:08
+-- Dumped from database version 9.4.15
+-- Dumped by pg_dump version 9.4.15
+-- Started on 2018-03-03 21:02:54 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,10 +13,8 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-SET search_path = stocker, pg_catalog;
-
 --
--- TOC entry 7 (class 2615 OID 25723)
+-- TOC entry 8 (class 2615 OID 33200)
 -- Name: stocker; Type: SCHEMA; Schema: -; Owner: stocker
 --
 
@@ -29,7 +26,7 @@ ALTER SCHEMA stocker OWNER TO stocker;
 SET search_path = stocker, pg_catalog;
 
 --
--- TOC entry 203 (class 1255 OID 25724)
+-- TOC entry 191 (class 1255 OID 33201)
 -- Name: ema_func(numeric, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
@@ -52,7 +49,7 @@ $_$;
 ALTER FUNCTION stocker.ema_func(numeric, numeric) OWNER TO stocker;
 
 --
--- TOC entry 204 (class 1255 OID 25725)
+-- TOC entry 192 (class 1255 OID 33202)
 -- Name: ema_func(numeric, double precision, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
@@ -71,7 +68,7 @@ $$;
 ALTER FUNCTION stocker.ema_func(state numeric, inval double precision, alpha numeric) OWNER TO stocker;
 
 --
--- TOC entry 205 (class 1255 OID 25726)
+-- TOC entry 193 (class 1255 OID 33203)
 -- Name: ema_func(numeric, numeric, numeric); Type: FUNCTION; Schema: stocker; Owner: stocker
 --
 
@@ -90,7 +87,7 @@ $$;
 ALTER FUNCTION stocker.ema_func(state numeric, inval numeric, alpha numeric) OWNER TO stocker;
 
 --
--- TOC entry 580 (class 1255 OID 25727)
+-- TOC entry 548 (class 1255 OID 33204)
 -- Name: ema(numeric); Type: AGGREGATE; Schema: stocker; Owner: stocker
 --
 
@@ -103,7 +100,7 @@ CREATE AGGREGATE ema(numeric) (
 ALTER AGGREGATE stocker.ema(numeric) OWNER TO stocker;
 
 --
--- TOC entry 581 (class 1255 OID 25728)
+-- TOC entry 549 (class 1255 OID 33205)
 -- Name: ema(double precision, numeric); Type: AGGREGATE; Schema: stocker; Owner: stocker
 --
 
@@ -120,8 +117,8 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 186 (class 1259 OID 25729)
--- Name: stock_hist; Type: TABLE; Schema: stocker; Owner: stocker
+-- TOC entry 174 (class 1259 OID 33206)
+-- Name: stock_hist; Type: TABLE; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 CREATE TABLE stock_hist (
@@ -139,7 +136,7 @@ CREATE TABLE stock_hist (
 ALTER TABLE stock_hist OWNER TO stocker;
 
 --
--- TOC entry 187 (class 1259 OID 25735)
+-- TOC entry 175 (class 1259 OID 33212)
 -- Name: stock_hist_id_seq; Type: SEQUENCE; Schema: stocker; Owner: stocker
 --
 
@@ -154,8 +151,8 @@ CREATE SEQUENCE stock_hist_id_seq
 ALTER TABLE stock_hist_id_seq OWNER TO stocker;
 
 --
--- TOC entry 2148 (class 0 OID 0)
--- Dependencies: 187
+-- TOC entry 2024 (class 0 OID 0)
+-- Dependencies: 175
 -- Name: stock_hist_id_seq; Type: SEQUENCE OWNED BY; Schema: stocker; Owner: stocker
 --
 
@@ -163,7 +160,7 @@ ALTER SEQUENCE stock_hist_id_seq OWNED BY stock_hist.id;
 
 
 --
--- TOC entry 188 (class 1259 OID 25737)
+-- TOC entry 176 (class 1259 OID 33214)
 -- Name: stock_w_ema; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
@@ -186,7 +183,7 @@ CREATE VIEW stock_w_ema AS
 ALTER TABLE stock_w_ema OWNER TO stocker;
 
 --
--- TOC entry 190 (class 1259 OID 25755)
+-- TOC entry 177 (class 1259 OID 33219)
 -- Name: stock_w_fi; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
@@ -211,7 +208,7 @@ CREATE VIEW stock_w_fi AS
 ALTER TABLE stock_w_fi OWNER TO stocker;
 
 --
--- TOC entry 189 (class 1259 OID 25747)
+-- TOC entry 178 (class 1259 OID 33224)
 -- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
@@ -236,16 +233,16 @@ CREATE VIEW stock_w_fi_2 AS
 ALTER TABLE stock_w_fi_2 OWNER TO stocker;
 
 --
--- TOC entry 2020 (class 2604 OID 25752)
--- Name: stock_hist id; Type: DEFAULT; Schema: stocker; Owner: stocker
+-- TOC entry 1904 (class 2604 OID 33229)
+-- Name: id; Type: DEFAULT; Schema: stocker; Owner: stocker
 --
 
 ALTER TABLE ONLY stock_hist ALTER COLUMN id SET DEFAULT nextval('stock_hist_id_seq'::regclass);
 
 
 --
--- TOC entry 2022 (class 2606 OID 25754)
--- Name: stock_hist stock_hist_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker
+-- TOC entry 1906 (class 2606 OID 33231)
+-- Name: stock_hist_pkey; Type: CONSTRAINT; Schema: stocker; Owner: stocker; Tablespace: 
 --
 
 ALTER TABLE ONLY stock_hist
@@ -253,16 +250,19 @@ ALTER TABLE ONLY stock_hist
 
 
 --
--- TOC entry 2147 (class 0 OID 0)
--- Dependencies: 7
+-- TOC entry 2023 (class 0 OID 0)
+-- Dependencies: 8
 -- Name: stocker; Type: ACL; Schema: -; Owner: stocker
 --
 
+REVOKE ALL ON SCHEMA stocker FROM PUBLIC;
+REVOKE ALL ON SCHEMA stocker FROM stocker;
+GRANT ALL ON SCHEMA stocker TO stocker;
 GRANT ALL ON SCHEMA stocker TO PUBLIC;
 GRANT ALL ON SCHEMA stocker TO postgres;
 
 
--- Completed on 2018-03-02 17:31:09
+-- Completed on 2018-03-03 21:02:55 UTC
 
 --
 -- PostgreSQL database dump complete
