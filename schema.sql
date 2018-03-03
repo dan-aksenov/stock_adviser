@@ -9,28 +9,13 @@
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 SET search_path = stocker, pg_catalog;
 
-ALTER TABLE ONLY stocker.stock_hist DROP CONSTRAINT stock_hist_pkey;
-ALTER TABLE stocker.stock_hist ALTER COLUMN id DROP DEFAULT;
-DROP VIEW stocker.stock_w_fi_2;
-DROP VIEW stocker.stock_w_fi;
-DROP VIEW stocker.stock_w_ema;
-DROP SEQUENCE stocker.stock_hist_id_seq;
-DROP TABLE stocker.stock_hist;
-DROP AGGREGATE stocker.ema(double precision, numeric);
-DROP AGGREGATE stocker.ema(numeric);
-DROP FUNCTION stocker.ema_func(state numeric, inval numeric, alpha numeric);
-DROP FUNCTION stocker.ema_func(state numeric, inval double precision, alpha numeric);
-DROP FUNCTION stocker.ema_func(numeric, numeric);
-DROP SCHEMA stocker;
 --
 -- TOC entry 7 (class 2615 OID 25723)
 -- Name: stocker; Type: SCHEMA; Schema: -; Owner: stocker
