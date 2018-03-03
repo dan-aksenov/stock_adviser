@@ -19,24 +19,44 @@ app.layout = html.Div([
                  for ticker in tickers],
         value='SBER'
     ),
-    #dcc.Graph(id='close+emas chart')
     html.Div(id='close+emas chart')
+    #html.Div(id='fi chart')
 ])
 
 @app.callback(Output('close+emas chart', 'children'), [Input('my-dropdown', 'value')])
-def update_graph(selected_dropdown_value):
+def update_main_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
-    graph_data = {    
+    main_chart = {    
             'data': [
                 {'x': stock_data[0],'y': stock_data[2], 'type': 'line', 'name': 'close'},
                 {'x': stock_data[0],'y': stock_data[5], 'type': 'line', 'name': 'ema10'},
                 {'x': stock_data[0],'y': stock_data[6], 'type': 'line', 'name': 'ema20'},
                 ] 
             }
+    fi_chart = {
+            'data': [
+                {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
+                {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
+                ]
+           }
     graph = dcc.Graph(
         id=ticker,
-        figure= graph_data)
+        figure= main_chart)
     return graph
-            
+
+@app.callback(Output('fi chart', 'children'), [Input('my-dropdown', 'value')])
+def update_fi_graph(selected_dropdown_value):
+    stock_data = analizer.get_data( selected_dropdown_value )
+    fi_chart = {
+            'data': [
+                {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
+                {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
+                ]
+           }
+    graph = dcc.Graph(
+        id=ticker,
+        figure= fi_chart)
+    return graph
+
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
