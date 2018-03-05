@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.5
 -- Dumped by pg_dump version 9.6.5
 
--- Started on 2018-03-05 13:07:05
+-- Started on 2018-03-05 13:36:18
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,6 +14,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- TOC entry 7 (class 2615 OID 25723)
@@ -210,7 +211,7 @@ CREATE VIEW stock_w_fi AS
 ALTER TABLE stock_w_fi OWNER TO stocker;
 
 --
--- TOC entry 190 (class 1259 OID 25760)
+-- TOC entry 190 (class 1259 OID 25765)
 -- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
@@ -221,6 +222,7 @@ CREATE VIEW stock_w_fi_2 AS
     stock_w_ema.close,
     lag(stock_w_ema.close) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_close,
     lag(stock_w_ema.close, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_close,
+    lead(stock_w_ema.close, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS next_week_close,
     stock_w_ema.ema10,
     lag(stock_w_ema.ema10) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_ema10,
     lag(stock_w_ema.ema10, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_ema10,
@@ -265,7 +267,7 @@ GRANT ALL ON SCHEMA stocker TO PUBLIC;
 GRANT ALL ON SCHEMA stocker TO postgres;
 
 
--- Completed on 2018-03-05 13:07:06
+-- Completed on 2018-03-05 13:36:19
 
 --
 -- PostgreSQL database dump complete
