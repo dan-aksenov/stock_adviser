@@ -14,15 +14,23 @@ tickers = analizer.get_all_tickers()
 app.layout = html.Div([
     html.H1('Stock Tickers'),
     dcc.Dropdown(
-        id='my-dropdown',
+        id='my-dropdown1',
         options=[{'label': ticker, 'value': ticker        }
                  for ticker in tickers],
         value='SBER'
     ),
-    html.Div( id='close+emas chart' )
+    html.Div( id='close+emas chart' ),
+	
+	dcc.Dropdown(
+        id='my-dropdown2',
+        options=[{'label': ticker, 'value': ticker        }
+                 for ticker in tickers],
+        value='SBER'
+    ),
+    html.Div( id='fi chart' )
 ])
 
-@app.callback(Output('close+emas chart', 'children'), [Input('my-dropdown', 'value')])
+@app.callback(Output('close+emas chart', 'children'), [Input('my-dropdown1', 'value')])
 def update_main_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     main_chart = {    
@@ -43,7 +51,7 @@ def update_main_graph(selected_dropdown_value):
         figure= main_chart)
     return graph
 
-#@app.callback(Output('fi chart', 'children'), [Input('my-dropdown', 'value')])
+@app.callback(Output('fi chart', 'children'), [Input('my-dropdown2', 'value')])
 def update_fi_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     fi_chart = {
