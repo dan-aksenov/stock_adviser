@@ -19,8 +19,7 @@ app.layout = html.Div([
                  for ticker in tickers],
         value='SBER'
     ),
-    html.Div(id='close+emas chart')
-    #html.Div(id='fi chart')
+    html.Div( id='close+emas chart' )
 ])
 
 @app.callback(Output('close+emas chart', 'children'), [Input('my-dropdown', 'value')])
@@ -44,7 +43,7 @@ def update_main_graph(selected_dropdown_value):
         figure= main_chart)
     return graph
 
-@app.callback(Output('fi chart', 'children'), [Input('my-dropdown', 'value')])
+#@app.callback(Output('fi chart', 'children'), [Input('my-dropdown', 'value')])
 def update_fi_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     fi_chart = {
