@@ -45,15 +45,6 @@ def update_main_graph(selected_dropdown_value):
                 {'x': stock_data[0],'y': stock_data[6], 'type': 'line', 'name': 'ema20'},
                 ] 
             }
-    fi_chart = {
-            'data': [
-                {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
-                {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
-                ]
-           }
-    graph = dcc.Graph(
-        id=ticker,
-        figure= main_chart)
     return main_chart
 
 @app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
@@ -65,9 +56,6 @@ def update_fi_graph(selected_dropdown_value):
                 {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
                 ]
            }
-    graph = dcc.Graph(
-        id=ticker,
-        figure= fi_chart)
     return fi_chart
 
 if __name__ == '__main__':
