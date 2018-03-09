@@ -12,25 +12,30 @@ app = dash.Dash()
 tickers = analizer.get_all_tickers()
 
 app.layout = html.Div([
-    html.H1('Stock Tickers'),
     dcc.Dropdown(
-        id='my-dropdown1',
+        id='my-dropdown',
         options=[{'label': ticker, 'value': ticker        }
                  for ticker in tickers],
         value='SBER'
     ),
-    html.Div( id='close+emas chart' ),
-	
-	dcc.Dropdown(
-        id='my-dropdown2',
-        options=[{'label': ticker, 'value': ticker        }
-                 for ticker in tickers],
-        value='SBER'
-    ),
-    html.Div( id='fi chart' )
+    html.Div([
+        html.Div([
+            html.H3( 'Close, ema10, ema20'),
+            dcc.Graph(id='main_chart')
+        ], className="six columns"),
+
+        html.Div([
+            html.H3('Forse index 2 and 13'),
+            dcc.Graph(id='fi_chart')
+        ], className="six columns"),
+    ], className="row")
 ])
 
-@app.callback(Output('close+emas chart', 'children'), [Input('my-dropdown1', 'value')])
+app.css.append_css({
+    'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+})
+
+@app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_main_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     main_chart = {    
@@ -49,9 +54,9 @@ def update_main_graph(selected_dropdown_value):
     graph = dcc.Graph(
         id=ticker,
         figure= main_chart)
-    return graph
+    return main_chart
 
-@app.callback(Output('fi chart', 'children'), [Input('my-dropdown2', 'value')])
+@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_fi_graph(selected_dropdown_value):
     stock_data = analizer.get_data( selected_dropdown_value )
     fi_chart = {
@@ -63,7 +68,7 @@ def update_fi_graph(selected_dropdown_value):
     graph = dcc.Graph(
         id=ticker,
         figure= fi_chart)
-    return graph
+    return fi_chart
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
