@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.15
 -- Dumped by pg_dump version 9.4.15
--- Started on 2018-03-10 13:09:44 UTC
+-- Started on 2018-03-10 14:34:13 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -175,7 +175,7 @@ CREATE VIEW stock_w_ema AS
     ema(stock_hist.close, 0.1818181818181818) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt) AS ema10,
     ema(stock_hist.close, 0.0952380952380952) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt) AS ema20,
     (avg(((stock_hist.high - stock_hist.low) / (2)::double precision)) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt ROWS BETWEEN 5 PRECEDING AND CURRENT ROW) - avg(((stock_hist.high - stock_hist.low) / (2)::double precision)) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt ROWS BETWEEN 34 PRECEDING AND CURRENT ROW)) AS ao,
-    (round((stock_hist.volume * (stock_hist.close - lag(stock_hist.close) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt)))) / stock_hist.close) AS raw_fi,
+    round((stock_hist.volume * (stock_hist.close - lag(stock_hist.close) OVER (PARTITION BY stock_hist.ticker ORDER BY stock_hist.dt)))) AS raw_fi,
     stock_hist.volume
    FROM stock_hist;
 
@@ -267,7 +267,7 @@ GRANT ALL ON SCHEMA stocker TO PUBLIC;
 GRANT ALL ON SCHEMA stocker TO postgres;
 
 
--- Completed on 2018-03-10 13:09:45 UTC
+-- Completed on 2018-03-10 14:34:14 UTC
 
 --
 -- PostgreSQL database dump complete
