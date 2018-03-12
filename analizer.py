@@ -28,7 +28,8 @@ def get_all_tickers():
         tickers.append(row[0])
     return tickers
  
-def get_data( ticker ):
+def get_data_dash( ticker ):
+    '''Get data for dash app'''
     db_data = postgres_exec( "select dt,open,close,low,high,ema10,ema20,fi2,fi13,AO,Volume from stock_w_fi where ticker = '" + ticker +"'")
     
     close_dates = []
@@ -59,7 +60,8 @@ def get_data( ticker ):
     # 0 date, 1 open, 2 close, 3 low, 4 high, 5 ema10, 6 ema20, 7 fi2, 8 fi12, 9 ao, 10 volume
     return close_dates,open_prices,close_prices,low_prices,high_prices,ema10,ema20,fi2,fi13,ao,volume
 
-def get_data_old( ticker ):
+def get_data_statick( ticker ):
+    '''Get data for static pages'''
     db_data = postgres_exec( "select dt,close,ema10,ema20,fi2,fi13, AO,Volume from stock_w_fi where ticker = '" + ticker +"'")
     # select all, and render separately. Additional columns fi2, fi13, AO, Volume
     # line chart for FI, bar for Volume and AO

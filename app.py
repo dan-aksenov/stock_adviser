@@ -37,7 +37,7 @@ app.css.append_css({
 
 @app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_main_graph(selected_dropdown_value):
-    stock_data = analizer.get_data( selected_dropdown_value )
+    stock_data = analizer.get_data_dash( selected_dropdown_value )
     main_chart = {    
             'data': [
                 {'x': stock_data[0],'y': stock_data[2], 'type': 'line', 'name': 'close'},
@@ -49,7 +49,7 @@ def update_main_graph(selected_dropdown_value):
 
 @app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_fi_graph(selected_dropdown_value):
-    stock_data = analizer.get_data( selected_dropdown_value )
+    stock_data = analizer.get_data_dash( selected_dropdown_value )
     fi_chart = {
             'data': [
                 {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
