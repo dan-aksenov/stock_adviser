@@ -16,7 +16,6 @@ app.layout = html.Div([
         id='my-dropdown',
         options=[{'label': ticker, 'value': ticker        }
                  for ticker in tickers],
-        value='SBER'
     ),
     html.Div([
         html.Div([
