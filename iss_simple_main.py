@@ -55,6 +55,19 @@ class MyDataHandler(MicexISSDataHandler):
         """
         self.data.history = self.data.history + market_data
 
+def auth(config_file):
+   try:
+        with open(config_file) as config_file:    
+            conn_data = json.load(config_file)
+   except:
+        print "Error: Unable to read config file. "
+        sys.exit(1)
+
+    username = conn_data['username']   
+    password = conn_data['password']
+    my_config = Config(user=username password=password proxy_url='')
+    my_auth = MicexAuth(my_config)
+    return my_auth
 
 def main():
     """Get current day's data and display print it on screen."""
@@ -70,7 +83,7 @@ def main():
                                    now.strftime("%Y-%m-%d"))
         iss.handler.data.print_history()
 
-def get_multiple( days_cnt ):
+def get_multiple( days_cnt, out_file,auth_data ):
     """ Loop function to get ranges of dates. """
     global outfile
     outfile = raw_input('output file: ')
