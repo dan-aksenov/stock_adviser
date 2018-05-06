@@ -2,7 +2,7 @@ import sys
 from getopt import getopt
 import time
 import datetime
-import iis_simple_main
+import iss_simple_main
 
 def usage():
     print "Usage: -c config file path, -d number of days to download, -d dump directory"
@@ -25,7 +25,7 @@ def main():
         else:
             usage()
             sys.exit(1)
-'''
+    
     try:
         config_file
     except:
@@ -40,7 +40,7 @@ def main():
         dump_path
     except:
         dump_path = raw_input('Dump directory: ')
-'''            
+    
     start_time =  time.time()
     s3connect( config_file )
     print("Dumped on " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
