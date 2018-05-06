@@ -34,7 +34,7 @@ def main():
     try:
         buck_name
     except:
-        buck_name = raw_input('Bucket to dump:  ')
+        buck_name = raw_input('Days to download:  ')
     
     try:
         dump_path
