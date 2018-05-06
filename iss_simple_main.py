@@ -63,11 +63,11 @@ def auth(config_file):
         print "Error: Unable to read config file. "
         sys.exit(1)
 
-    username = conn_data['username']   
-    password = conn_data['password']
-    my_config = Config(user=username password=password proxy_url='')
-    my_auth = MicexAuth(my_config)
-    return my_auth
+   username = conn_data['username']
+   password = conn_data['password']
+   my_config = Config(user=username, password=password, proxy_url='')
+   my_auth = MicexAuth(my_config)
+   return my_auth
 
 def main():
     """Get current day's data and display print it on screen."""
