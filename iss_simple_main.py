@@ -15,12 +15,14 @@
 import sys
 import datetime
 import csv
+#json to read config file
+import json
 
 from iss_simple_client import Config
 from iss_simple_client import MicexAuth
 from iss_simple_client import MicexISSClient
 from iss_simple_client import MicexISSDataHandler
-			
+            
 class MyData_print:
     def __init__(self):
         self.history = []
@@ -44,7 +46,7 @@ class MyData_tofile():
 
 #class MyData_todb():
 #psycopg copy to behere. or separate file?
-			
+            
 class MyDataHandler(MicexISSDataHandler):
     """ This handler will be receiving pieces of data from the ISS client.
     """
@@ -55,7 +57,7 @@ class MyDataHandler(MicexISSDataHandler):
         """
         self.data.history = self.data.history + market_data
 
-def auth(config_file):
+def config(config_file):
    try:
         with open(config_file) as config_file:    
             conn_data = json.load(config_file)
@@ -66,12 +68,12 @@ def auth(config_file):
    username = conn_data['username']
    password = conn_data['password']
    my_config = Config(user=username, password=password, proxy_url='')
-   my_auth = MicexAuth(my_config)
-   return my_auth
+   return my_config
 
 def main():
     """Get current day's data and display print it on screen."""
-    my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
+    #my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
+    my_config = config(config_file=raw_input('config file: ')) 
     my_auth = MicexAuth(my_config)
     """ Current date doesn't work during trade day. Can be run on evening after."""
     now = datetime.datetime.now() - datetime.timedelta(days=1)
@@ -83,15 +85,15 @@ def main():
                                    now.strftime("%Y-%m-%d"))
         iss.handler.data.print_history()
 
-def get_multiple( days_cnt, out_file,auth_data ):
+def get_multiple( days_cnt, out_file, config_data ):
     """ Loop function to get ranges of dates. """
     global outfile
-    outfile = raw_input('output file: ')
+    outfile = out_file
     now = datetime.datetime.now()
     befoure = now - datetime.timedelta(days=days_cnt)
     delta = now - befoure
-    my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
-    my_auth = MicexAuth(my_config)
+    my_config = config( config_data ) 
+    my_auth = MicexAuth( my_config )
     #my_data = MyData_tofile(outfile)
     
     for i in range(delta.days + 1):
