@@ -32,9 +32,9 @@ def main():
         config_file = raw_input('Config file path: ')
     
     try:
-        buck_name
+        days
     except:
-        buck_name = raw_input('Days to download:  ')
+        days = input('Days to download:  ')
     
     try:
         dump_path
@@ -42,10 +42,9 @@ def main():
         dump_path = raw_input('Dump directory: ')
     
     start_time =  time.time()
-    s3connect( config_file )
-    print("Dumped on " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
-    buck_dump_diff( buck_name, dump_path )
-    print("Backed up for %s seconds" % (time.time() - start_time))
+    print("Started " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    iss_simple_main.get_multiple( days, dump_path, config_file )
+    print("Completed in %s seconds" % (time.time() - start_time))
 
 
 if __name__ == '__main__':
