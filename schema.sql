@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.15
 -- Dumped by pg_dump version 9.4.15
--- Started on 2018-05-07 18:45:05 UTC
+-- Started on 2018-05-07 20:02:22 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -159,8 +159,8 @@ CREATE VIEW stock_w_ema AS
 ALTER TABLE stock_w_ema OWNER TO stocker;
 
 --
--- TOC entry 178 (class 1259 OID 33256)
--- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: stocker
+-- TOC entry 178 (class 1259 OID 33294)
+-- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: pi
 --
 
 CREATE VIEW stock_w_fi_2 AS
@@ -170,13 +170,14 @@ CREATE VIEW stock_w_fi_2 AS
     stock_w_ema.close,
     lag(stock_w_ema.close) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_close,
     lag(stock_w_ema.close, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_close,
-    lead(stock_w_ema.close, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS next_week_close,
     stock_w_ema.ema10,
     lag(stock_w_ema.ema10) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_ema10,
     lag(stock_w_ema.ema10, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_ema10,
+    lag(stock_w_ema.ema10, 14) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS iiweek_ago_ema10,
     stock_w_ema.ema20,
     lag(stock_w_ema.ema20) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_ema20,
     lag(stock_w_ema.ema20, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_ema20,
+    lag(stock_w_ema.ema20, 14) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS iiweek_ago_ema20,
     stock_w_ema.ao,
     lag(stock_w_ema.ao) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS prev_ao,
     lag(stock_w_ema.ao, 7) OVER (PARTITION BY stock_w_ema.ticker ORDER BY stock_w_ema.dt) AS week_ago_ao,
@@ -186,26 +187,26 @@ CREATE VIEW stock_w_fi_2 AS
    FROM stock_w_ema;
 
 
-ALTER TABLE stock_w_fi_2 OWNER TO stocker;
+ALTER TABLE stock_w_fi_2 OWNER TO pi;
 
 --
--- TOC entry 180 (class 1259 OID 33283)
--- Name: logn; Type: VIEW; Schema: stocker; Owner: pi
+-- TOC entry 180 (class 1259 OID 33304)
+-- Name: long; Type: VIEW; Schema: stocker; Owner: pi
 --
 
-CREATE VIEW logn AS
+CREATE VIEW long AS
  SELECT stock_w_fi_2.ticker,
     stock_w_fi_2.close,
     stock_w_fi_2.prev_close
    FROM stock_w_fi_2
-  WHERE ((((((stock_w_fi_2.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])) AND (stock_w_fi_2.dt = ( SELECT max(stock_hist.dt) AS max
-           FROM stock_hist))) AND (stock_w_fi_2.ema10 < stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.fi2 > (0)::numeric)) AND (stock_w_fi_2.fi13 < (0)::numeric)) AND (stock_w_fi_2.ema20 < stock_w_fi_2.week_ago_ema20));
+  WHERE ((((((((stock_w_fi_2.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])) AND (stock_w_fi_2.dt = ( SELECT max(stock_hist.dt) AS max
+           FROM stock_hist))) AND (stock_w_fi_2.ema10 > stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.ema10 > stock_w_fi_2.iiweek_ago_ema10)) AND (stock_w_fi_2.fi2 < (0)::numeric)) AND (stock_w_fi_2.fi13 > (0)::numeric)) AND (stock_w_fi_2.ema20 > stock_w_fi_2.week_ago_ema20)) AND (stock_w_fi_2.ema20 > stock_w_fi_2.iiweek_ago_ema20));
 
 
-ALTER TABLE logn OWNER TO pi;
+ALTER TABLE long OWNER TO pi;
 
 --
--- TOC entry 179 (class 1259 OID 33278)
+-- TOC entry 179 (class 1259 OID 33299)
 -- Name: short; Type: VIEW; Schema: stocker; Owner: pi
 --
 
@@ -214,8 +215,8 @@ CREATE VIEW short AS
     stock_w_fi_2.close,
     stock_w_fi_2.prev_close
    FROM stock_w_fi_2
-  WHERE ((((((stock_w_fi_2.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])) AND (stock_w_fi_2.dt = ( SELECT max(stock_hist.dt) AS max
-           FROM stock_hist))) AND (stock_w_fi_2.ema10 > stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.fi2 < (0)::numeric)) AND (stock_w_fi_2.fi13 > (0)::numeric)) AND (stock_w_fi_2.ema20 > stock_w_fi_2.week_ago_ema20));
+  WHERE ((((((((stock_w_fi_2.ticker = ANY (ARRAY['SBER'::text, 'SBERP'::text, 'GAZP'::text, 'LKOH'::text, 'MGNT'::text, 'GMKN'::text, 'NVTK'::text, 'SNGS'::text, 'SNGSP'::text, 'ROSN'::text, 'VTBR'::text, 'TATN'::text, 'TATNP'::text, 'MTSS'::text, 'ALRS'::text, 'CHMF'::text, 'MOEX'::text, 'NLMK'::text, 'IRAO'::text, 'YNDX'::text, 'POLY'::text, 'PLZL'::text, 'TRNFP'::text, 'AFLT'::text, 'RUAL'::text, 'PHOR'::text, 'HYDR'::text, 'PIKK'::text, 'MAGN'::text, 'RTKM'::text, 'MFON'::text, 'FEES'::text, 'AFKS'::text, 'RNFT'::text, 'MTLR'::text, 'EPLN'::text, 'UPRO'::text, 'LSRG'::text, 'CBOM'::text, 'DSKY'::text, 'RSTI'::text, 'NMTP'::text, 'TRMK'::text, 'MVID'::text, 'AGRO'::text, 'MSNG'::text, 'UWGN'::text, 'AKRN'::text, 'DIXY'::text, 'LNTA'::text])) AND (stock_w_fi_2.dt = ( SELECT max(stock_hist.dt) AS max
+           FROM stock_hist))) AND (stock_w_fi_2.ema10 < stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.ema10 < stock_w_fi_2.iiweek_ago_ema10)) AND (stock_w_fi_2.fi2 > (0)::numeric)) AND (stock_w_fi_2.fi13 < (0)::numeric)) AND (stock_w_fi_2.ema20 < stock_w_fi_2.week_ago_ema20)) AND (stock_w_fi_2.ema20 < stock_w_fi_2.iiweek_ago_ema20));
 
 
 ALTER TABLE short OWNER TO pi;
@@ -299,7 +300,7 @@ GRANT ALL ON SCHEMA stocker TO PUBLIC;
 GRANT ALL ON SCHEMA stocker TO postgres;
 
 
--- Completed on 2018-05-07 18:45:06 UTC
+-- Completed on 2018-05-07 20:02:23 UTC
 
 --
 -- PostgreSQL database dump complete
