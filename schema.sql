@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.15
 -- Dumped by pg_dump version 9.4.15
--- Started on 2018-05-07 20:02:22 UTC
+-- Started on 2018-05-07 20:07:50 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -160,7 +160,7 @@ ALTER TABLE stock_w_ema OWNER TO stocker;
 
 --
 -- TOC entry 178 (class 1259 OID 33294)
--- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: pi
+-- Name: stock_w_fi_2; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW stock_w_fi_2 AS
@@ -187,11 +187,11 @@ CREATE VIEW stock_w_fi_2 AS
    FROM stock_w_ema;
 
 
-ALTER TABLE stock_w_fi_2 OWNER TO pi;
+ALTER TABLE stock_w_fi_2 OWNER TO stocker;
 
 --
 -- TOC entry 180 (class 1259 OID 33304)
--- Name: long; Type: VIEW; Schema: stocker; Owner: pi
+-- Name: long; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW long AS
@@ -203,11 +203,11 @@ CREATE VIEW long AS
            FROM stock_hist))) AND (stock_w_fi_2.ema10 > stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.ema10 > stock_w_fi_2.iiweek_ago_ema10)) AND (stock_w_fi_2.fi2 < (0)::numeric)) AND (stock_w_fi_2.fi13 > (0)::numeric)) AND (stock_w_fi_2.ema20 > stock_w_fi_2.week_ago_ema20)) AND (stock_w_fi_2.ema20 > stock_w_fi_2.iiweek_ago_ema20));
 
 
-ALTER TABLE long OWNER TO pi;
+ALTER TABLE long OWNER TO stocker;
 
 --
 -- TOC entry 179 (class 1259 OID 33299)
--- Name: short; Type: VIEW; Schema: stocker; Owner: pi
+-- Name: short; Type: VIEW; Schema: stocker; Owner: stocker
 --
 
 CREATE VIEW short AS
@@ -219,7 +219,7 @@ CREATE VIEW short AS
            FROM stock_hist))) AND (stock_w_fi_2.ema10 < stock_w_fi_2.week_ago_ema10)) AND (stock_w_fi_2.ema10 < stock_w_fi_2.iiweek_ago_ema10)) AND (stock_w_fi_2.fi2 > (0)::numeric)) AND (stock_w_fi_2.fi13 < (0)::numeric)) AND (stock_w_fi_2.ema20 < stock_w_fi_2.week_ago_ema20)) AND (stock_w_fi_2.ema20 < stock_w_fi_2.iiweek_ago_ema20));
 
 
-ALTER TABLE short OWNER TO pi;
+ALTER TABLE short OWNER TO stocker;
 
 --
 -- TOC entry 175 (class 1259 OID 33244)
@@ -300,7 +300,7 @@ GRANT ALL ON SCHEMA stocker TO PUBLIC;
 GRANT ALL ON SCHEMA stocker TO postgres;
 
 
--- Completed on 2018-05-07 20:02:23 UTC
+-- Completed on 2018-05-07 20:07:51 UTC
 
 --
 -- PostgreSQL database dump complete
