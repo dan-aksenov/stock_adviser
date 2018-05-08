@@ -19,7 +19,7 @@ def main():
         if opt in ( '-c' ):
             config_file = arg
         elif opt in ( '-b' ):
-            days= arg
+            days = int( arg )
         elif opt in ( '-d' ):
             dump_path = arg
         else:
