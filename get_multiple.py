@@ -5,7 +5,7 @@ import datetime
 import iss_simple_main
 
 def usage():
-    print "Usage: -c config file path, -d number of days to download, -d dump directory"
+    print "Usage: -c config file path, -b number of days to download, -d dump directory"
 
 
 def main():
