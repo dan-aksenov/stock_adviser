@@ -22,7 +22,7 @@ def postgres_exec( sql_query ):
     return query_results
 
 def get_all_tickers():
-    db_data = postgres_exec( "select distinct ticker from stock_w_fi where ticker in ('SBER','GAZP','LKOH','MGNT','GMKN','NVTK','SNGS','SNGSP','ROSN','VTBR','TATN','MTSS','ALRS','CHMF','MOEX','IRAO')" )
+    db_data = postgres_exec( "select distinct ticker from stock_w_fi where ticker in ('SBER','SBERP','GAZP','LKOH','MGNT','GMKN','NVTK','SNGS','SNGSP','ROSN','VTBR','TATN','TATNP','MTSS','ALRS','CHMF','MOEX','NLMK','IRAO','YNDX','POLY','PLZL','TRNFP','AFLT','RUAL','PHOR','HYDR','PIKK','MAGN','RTKM','MFON','FEES','AFKS','RNFT','MTLR','EPLN','UPRO','LSRG','CBOM','DSKY','RSTI','NMTP','TRMK','MVID','AGRO','MSNG','UWGN','AKRN','DIXY','LNTA')" )
     tickers=[]
     for row in db_data:
         tickers.append(row[0])
