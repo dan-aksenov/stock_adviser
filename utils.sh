@@ -3,4 +3,4 @@ pg_dump --format plain --schema="stocker" --schema-only --verbose --file schema.
 
 psql -f schema.sql -U stocker stocker
 
-psql -U stocker stocker -c "copy stock_hist(dt,ticker,open,close,low,high,volume) FROM '/file'"
+psql -c "copy stock_hist(dt,ticker,open,close,low,high,volume) FROM '/tmp/stocks.csv'" -U stocker stocker
