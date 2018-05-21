@@ -20,11 +20,21 @@ and fi13>0
 and close < prev_close;
 
 --deals hist inserts
-insert into deals_hist(dt_open,ticker,price_open) select (dt,ticker,close) from long;
-insert into deals_hist(dt_open,ticker,-(price_open)) select (dt,ticker,close) from short;
+insert into deal_hist("dt_open","ticker","price_open") select now(),ticker,close from long;
+insert into deal_hist("dt_open","ticker","price_open") select now(),ticker,-(close) from short;
 
 --deals hist update //draft to be fixed
-update deals_hist set dt_close = now and price_close = close 
+select * from deal_hist d where price_open = 
+(select close from stock_hist s where s.dt = (select max(dt) from stock_hist) 
+and d.ticker = s.ticker 
+and (
+(s.close::float-d.price_open::float)/d.price_open::float>0.05
+or
+--to be fixed
+(s.close::float-d.price_open::float)/d.price_open::float>0.02
+));
+
+update deals_hist d set dt_close = now and price_close = close 
 where close,ticker = (
 select * from stock_hist s on date=date and ticker=ticker
 where
