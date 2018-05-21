@@ -36,9 +36,9 @@ or
 --working
 update deal_hist set
 dt_close=subq.dt,
-price_close=subq.close
+price_close=subq.to_close
 from
-(select s.dt,s.ticker,s.open as to_close,d.dt_open,d.ticker,d.price_open
+(select s.dt,s.ticker,s.open as to_close,d.dt_open,d.price_open
 from stock_hist s join deal_hist d on d.ticker = s.ticker
 where s.dt = (select max(dt) from stock_hist)
 and (
@@ -47,19 +47,11 @@ or
 (s.close::float-d.price_open::float)/d.price_open::float<0.02
 ) and d.price_open >0) as subq
 where deal_hist.ticker = subq.ticker
+and deal_hist.price_open >0
 ;
 
   
 -- for shorts to check
-select s.dt,s.ticker,-s.open as to_close,d.dt_open,d.ticker,d.price_open
-from stock_hist s join deal_hist d on d.ticker = s.ticker
-where s.dt = (select max(dt) from stock_hist)
-and (
-(-s.close::float-d.price_open::float)/-d.price_open::float>0.05
-or
-(-s.close::float-d.price_open::float)/-d.price_open::float<0.02
-) and d.price_open <0
-
 update deal_hist set
 dt_close=subq.dt,
 price_close=subq.to_close
@@ -73,3 +65,4 @@ or
 (-s.close::float-d.price_open::float)/-d.price_open::float<0.02
 ) and d.price_open <0) as subq
 where deal_hist.ticker = subq.ticker
+and deal_hist.price_open <0;
