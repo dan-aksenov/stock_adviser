@@ -66,3 +66,6 @@ or
 ) and d.price_open <0) as subq
 where deal_hist.ticker = subq.ticker
 and deal_hist.price_open <0;
+
+-- select result
+select ticker,price_open,price_close,price_close-price_open as result from deal_hist;
