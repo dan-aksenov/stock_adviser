@@ -15,6 +15,7 @@ for i in analizer.get_all_tickers():
          '<object data="graph.svg" type="image/svg+xml"> \n' +
          '<img src="yourfallback.jpg" /\n>'
          '</object>\n</div>\n'
+    )
 
-f.close
+f.close()
 	
