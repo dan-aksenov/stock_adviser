@@ -137,7 +137,7 @@ ALTER TABLE stock_hist OWNER TO stocker;
 
 
 CREATE TABLE deal_hist (
-    id integer NOT NULL,
+    id serial,
     dt_open date,
     dt_close date,
     ticker text,

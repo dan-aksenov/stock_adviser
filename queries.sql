@@ -18,3 +18,14 @@ and dt = current_date-3 and
 ema10 > week_ago_ema10 and fi2<0 
 and fi13>0 
 and close < prev_close;
+
+--deals hist inserts
+insert into deals_hist(dt_open,ticker,price_open) select (dt,ticker,close) from long;
+insert into deals_hist(dt_open,ticker,-(price_open)) select (dt,ticker,close) from short;
+
+--deals hist update //draft to be fixed
+update deals_hist set dt_close = now and price_close = close 
+where close,ticker = (
+select * from stock_hist s on date=date and ticker=ticker
+where
+(s.close-d.open)=5% or (s.close-d.open)=2%)
