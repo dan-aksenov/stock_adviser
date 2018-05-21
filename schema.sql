@@ -135,6 +135,44 @@ CREATE TABLE stock_hist (
 
 ALTER TABLE stock_hist OWNER TO stocker;
 
+
+CREATE TABLE deal_hist (
+    id integer NOT NULL,
+    dt_open date,
+    dt_close date,
+    ticker text,
+    price_open double precision,
+    price_close double precision
+);
+
+
+ALTER TABLE deal_hist OWNER TO stocker;
+
+CREATE TABLE deal_hist (
+    id integer NOT NULL,
+    dt_open date,
+    dt_close date,
+    ticker text,
+    price_open double precision,
+    price_close double precision
+);
+
+ALTER TABLE deal_hist OWNER TO stocker;
+
+CREATE VIEW deals_analyzer AS
+ SELECT 
+   deals_hist.dt_open,
+   deals_hist.dt_close,
+   (deals_hist.dt_close - deals_hist.dt_open) as days_total
+   deal_hist.ticker,
+   deal_hist.price_open,
+   deal_hist.price_close,
+   (deal_hist.price_close - deal_hist.price_open) as result
+   ((deal_hist.price_close*100)/deal_hist.price_open - 100) as result_pct
+   FROM deals_hist;
+
+ALTER TABLE stock_w_ema OWNER TO stocker;
+
 --
 -- TOC entry 176 (class 1259 OID 33246)
 -- Name: stock_w_ema; Type: VIEW; Schema: stocker; Owner: stocker
