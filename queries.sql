@@ -23,19 +23,22 @@ and close < prev_close;
 insert into deal_hist("dt_open","ticker","price_open") select now(),ticker,close from long;
 insert into deal_hist("dt_open","ticker","price_open") select now(),ticker,-(close) from short;
 
---deals hist update //draft to be fixed
-select * from deal_hist d where price_open = 
-(select close from stock_hist s where s.dt = (select max(dt) from stock_hist) 
-and d.ticker = s.ticker 
+--deals hist update for longs
+select s.dt,s.ticker,s.open as to_close,d.dt_open,d.ticker,d.price_open
+from stock_hist s join deal_hist d on d.ticker = s.ticker
+where s.dt = (select max(dt) from stock_hist)
 and (
 (s.close::float-d.price_open::float)/d.price_open::float>0.05
 or
---to be fixed
-(s.close::float-d.price_open::float)/d.price_open::float>0.02
-));
+(s.close::float-d.price_open::float)/d.price_open::float<0.02
+) and d.price_open >0
 
-update deals_hist d set dt_close = now and price_close = close 
-where close,ticker = (
-select * from stock_hist s on date=date and ticker=ticker
-where
-(s.close-d.open)=5% or (s.close-d.open)=2%)
+-- for shorts to check
+select s.dt,s.ticker,-s.open as to_close,d.dt_open,d.ticker,d.price_open
+from stock_hist s join deal_hist d on d.ticker = s.ticker
+where s.dt = (select max(dt) from stock_hist)
+and (
+(-s.close::float-d.price_open::float)/-d.price_open::float>0.05
+or
+(-s.close::float-d.price_open::float)/-d.price_open::float<0.02
+) and d.price_open <0
