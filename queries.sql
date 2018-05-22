@@ -49,7 +49,6 @@ or
 where deal_hist.ticker = subq.ticker
 and deal_hist.price_open >0
 ;
-
   
 -- for shorts to check
 update deal_hist set
