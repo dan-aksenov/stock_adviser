@@ -1,3 +1,4 @@
+#!/bin/bash
 # daily reload
 rm /tmp/stocks.csv
 python get_multiple.py -c ~/moex.json -b 90 -d /tmp/stocks.csv
