@@ -7,6 +7,8 @@ from datetime import datetime as dt
 
 import analizer
 
+from googlefinance.client import get_price_data
+
 app = dash.Dash()
 
 tickers = analizer.get_all_tickers()
@@ -37,26 +39,32 @@ app.css.append_css({
 
 @app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value')])
 def update_main_graph(selected_dropdown_value):
-    stock_data = analizer.get_data_dash( selected_dropdown_value )
+    param = {
+	'q': selected_dropdown_value, # Stock symbol (ex: "AAPL")
+	'i': "86400", # Interval size in seconds ("86400" = 1 day intervals)
+	'x': "MCX", # Stock exchange symbol on which stock is traded (ex: "NASD")
+	'p': "1Y" # Period (Ex: "1Y" = 1 year)
+    }
+    
+    stock_data = get_price_data(param)
+    
     main_chart = {    
             'data': [
-                {'x': stock_data[0],'y': stock_data[2], 'type': 'line', 'name': 'close'},
-                {'x': stock_data[0],'y': stock_data[5], 'type': 'line', 'name': 'ema10'},
-                {'x': stock_data[0],'y': stock_data[6], 'type': 'line', 'name': 'ema20'},
-                ] 
+                { 'y': stock_data['Close'], 'type': 'line' }
+            ]
             }
     return main_chart
 
-@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
-def update_fi_graph(selected_dropdown_value):
-    stock_data = analizer.get_data_dash( selected_dropdown_value )
-    fi_chart = {
-            'data': [
-                {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
-                {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
-                ]
-           }
-    return fi_chart
+#@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
+#def update_fi_graph(selected_dropdown_value):
+#    stock_data = analizer.get_data_dash( selected_dropdown_value )
+#    fi_chart = {
+#            'data': [
+#                {'x': stock_data[0],'y': stock_data[7], 'type': 'line', 'name': 'fi2'},
+#                {'x': stock_data[0],'y': stock_data[8], 'type': 'line', 'name': 'fi13'},
+#                ]
+#           }
+#    return fi_chart
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
