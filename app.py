@@ -46,12 +46,13 @@ def update_main_graph(selected_dropdown_value):
 	'p': "1Y" # Period (Ex: "1Y" = 1 year)
     }
     
-    stock_data = get_price_data(param)
+    df = get_price_data(param)
     
     main_chart = {    
-            'data': [
-                { 'y': stock_data['Close'], 'type': 'line' }
-            ]
+            'data': [{ 
+                 'x': df.index,
+                 'y': df.Close
+                    }]
             }
     return main_chart
 
