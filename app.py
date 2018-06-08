@@ -49,10 +49,11 @@ def update_main_graph(selected_dropdown_value):
     df = get_price_data(param)
     
     main_chart = {    
-            'data': [{ 
-                 'x': df.index,
-                 'y': df.Close
-                    }]
+            'data': [ 
+                 {'x': df.index, 'y': df.Close, 'type': 'line', 'name': 'Close'},
+                 {'x': df.index, 'y': df.Close.ewm(span=10, adjust=False).mean(),'type': 'line', 'name': 'EMA10'},
+                 {'x': df.index, 'y': df.Close.ewm(span=20, adjust=False).mean(),'type': 'line', 'name': 'EMA20'}
+                    ]
             }
     return main_chart
 
