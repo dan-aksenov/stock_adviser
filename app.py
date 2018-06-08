@@ -96,7 +96,7 @@ def update_fi_graph(selected_dropdown_value, selected_radio_value):
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
 	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
 	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+	'p': "1M"                       # Period (Ex: "1Y" = 1 year)
     }
     
     df = get_price_data(param)
