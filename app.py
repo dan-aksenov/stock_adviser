@@ -5,20 +5,38 @@ import dash_html_components as html
 from pandas_datareader import data as web
 from datetime import datetime as dt
 
-import analizer
+#import analizer
 
 from googlefinance.client import get_price_data
 
 app = dash.Dash()
 
-tickers = analizer.get_all_tickers()
+tickers = ['SBER',
+'GAZP',
+'LKOH',
+'MGNT',
+'GMKN',
+'NVTK',
+'SNGS',
+'SNGSP',
+'ROSN',
+'VTBR',
+'TATN'
+'MTSS',
+'ALRS',
+'CHMF',
+'MOEX',
+'IRAO',
+]
+
+#analizer.get_all_tickers()
 
 app.layout = html.Div([
     dcc.Dropdown(
         id='my-dropdown',
         options=[{'label': ticker, 'value': ticker}
                  for ticker in tickers],
-        value='ALRS'
+        value=tickers[0]
     ),
     
     dcc.RadioItems(
@@ -27,7 +45,7 @@ app.layout = html.Div([
         {'label': 'Daily chart', 'value': 86400},
         {'label': 'Weekly chart', 'value': 86400*7}
     ],
-        value=86400*7
+        value=86400
     ),
     
     html.Div([
@@ -49,6 +67,7 @@ app.css.append_css({
 
 @app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_main_graph(selected_dropdown_value, selected_radio_value):
+    
     param = {
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
 	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
@@ -70,20 +89,34 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
             }
     return main_chart
 
-@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value')])
-def update_fi_graph(selected_dropdown_value):
-    df = analizer.get_data_dash( selected_dropdown_value )
+@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
+def update_fi_graph(selected_dropdown_value, selected_radio_value):
+    
+    param = {
+	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
+	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
+	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
+	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+    }
+    
+    df = get_price_data(param)
+    
     fi_chart = {
             'data': [
-                {'x': df.index, 'y': rawfi(df), 'type': 'line', 'name': 'rawfi'}
-                    ]
+                {'x': df.index, 'y': rawfi(df).ewm(span=2, adjust=False).mean(), 'type': 'line', 'name': 'fi2'},
+                {'x': df.index, 'y': rawfi(df).ewm(span=13, adjust=False).mean(), 'type': 'line', 'name': 'fi13'}
+                    ],
+            'layout': {
+                'title': 'Forse index 2 and 13 from ' + selected_dropdown_value
+            }
            }
     return fi_chart
 
-def rawfi(df):
-    raw_fi = df.Close-df.Close.shift(1)
-    raw_fi = raw_fi*df.Volume
-    return raw_fi
+def rawfi(x):
+     P = x.Close
+     V = x.Volume
+     raw_fi = (P-P.shift(1))*V
+     return raw_fi
     
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
