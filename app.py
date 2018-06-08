@@ -32,12 +32,12 @@ app.layout = html.Div([
     
     html.Div([
         html.Div([
-            html.H3( 'Close, ema10, ema20'),
+            #html.H3( 'Close, ema10, ema20' ),
             dcc.Graph(id='main_chart')
         ], className="six columns"),
 
         html.Div([
-            html.H3('Forse index 2 and 13'),
+            #html.H3('Forse index 2 and 13'),
             dcc.Graph(id='fi_chart')
         ], className="six columns"),
     ], className="row")
@@ -58,12 +58,15 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     df = get_price_data(param)
     
-    main_chart = {    
+    main_chart = {  
             'data': [ 
                  {'x': df.index, 'y': df.Close, 'type': 'line', 'name': 'Close'},
                  {'x': df.index, 'y': df.Close.ewm(span=10, adjust=False).mean(),'type': 'line', 'name': 'EMA10'},
                  {'x': df.index, 'y': df.Close.ewm(span=20, adjust=False).mean(),'type': 'line', 'name': 'EMA20'}
-                    ]
+                    ],
+            'layout': {
+                'title': 'Close, ema10, ema20 for ' + selected_dropdown_value
+            }
             }
     return main_chart
 
