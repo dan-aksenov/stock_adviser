@@ -21,7 +21,7 @@ tickers = ['SBER',
 'SNGSP',
 'ROSN',
 'VTBR',
-'TATN'
+'TATN',
 'MTSS',
 'ALRS',
 'CHMF',
