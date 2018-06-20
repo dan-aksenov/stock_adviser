@@ -34,7 +34,7 @@ tickers = ['SBER',
 'IRAO',
 ]
 
-#analizer.get_all_tickers()
+#todo make 'good' ticker list
 
 app.layout = html.Div([
     dcc.Dropdown(
