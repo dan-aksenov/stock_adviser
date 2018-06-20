@@ -50,7 +50,7 @@ app.layout = html.Div([
         {'label': 'Daily chart', 'value': 86400},
         {'label': 'Weekly chart', 'value': 86400*7}
     ],
-        value=86400
+        value=86400*7
     ),
     
     html.Div([
