@@ -40,8 +40,8 @@ app.layout = html.Div([
     dcc.Dropdown(
         id='my-dropdown',
         options=[{'label': ticker, 'value': ticker}
-                 for ticker in tickers],
-        value=tickers[0]
+                 for ticker in sorted(tickers)],
+        value=sorted(tickers)[0]
     ),
     
     dcc.RadioItems(
