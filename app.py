@@ -78,12 +78,17 @@ app.css.append_css({
 
 @app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_main_graph(selected_dropdown_value, selected_radio_value):
+
+    if selected_radio_value == 86400*7:
+    	scale = "1Y"
+    elif selected_radio_value == 86400:
+    	scale = "2M"
     
     param = {
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
 	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
 	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+	'p': scale                       # Period (Ex: "1Y" = 1 year)
     }
     
     df = get_price_data(param)
@@ -102,12 +107,17 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
 
 @app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_fi_graph(selected_dropdown_value, selected_radio_value):
+
+    if selected_radio_value == 86400*7:
+    	scale = "1Y"
+    elif selected_radio_value == 86400:
+    	scale = "2M"
     
     param = {
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
 	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
 	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+	'p': scale                       # Period (Ex: "1Y" = 1 year)
     }
     
     df = get_price_data(param)
@@ -125,12 +135,17 @@ def update_fi_graph(selected_dropdown_value, selected_radio_value):
 
 @app.callback(Output('vol_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_fi_graph(selected_dropdown_value, selected_radio_value):
-    
+
+    if selected_radio_value == 86400*7:
+    	scale = "1Y"
+    elif selected_radio_value == 86400:
+    	scale = "2M"
+
     param = {
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
 	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
 	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+	'p': scale                       # Period (Ex: "1Y" = 1 year)
     }
     
     df = get_price_data(param)
