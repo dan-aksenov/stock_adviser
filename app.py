@@ -63,6 +63,12 @@ app.layout = html.Div([
             #html.H3('Forse index 2 and 13'),
             dcc.Graph(id='fi_chart')
         ], className="six columns"),
+
+        html.Div([
+            #html.H3('Forse index 2 and 13'),
+            dcc.Graph(id='vol_chart')
+        ], className="six columns"),
+
     ], className="row")
 ])
 
@@ -116,6 +122,30 @@ def update_fi_graph(selected_dropdown_value, selected_radio_value):
             }
            }
     return fi_chart
+
+@app.callback(Output('vol_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
+def update_fi_graph(selected_dropdown_value, selected_radio_value):
+    
+    param = {
+	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
+	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
+	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
+	'p': "1Y"                       # Period (Ex: "1Y" = 1 year)
+    }
+    
+    df = get_price_data(param)
+    
+    vol_chart = {
+            'data': [
+                 {'x': df.index, 'y': df.Volume, 'type': 'bar', 'name': 'Volume'}
+
+                    ],
+            'layout': {
+                'title': 'Volume for ' + selected_dropdown_value
+            }
+           }
+    return vol_chart
+
 
 def rawfi(x):
      P = x.Close
