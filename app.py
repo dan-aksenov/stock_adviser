@@ -112,7 +112,7 @@ def update_fi_graph(selected_dropdown_value, selected_radio_value):
                 {'x': df.index, 'y': rawfi(df).ewm(span=13, adjust=False).mean(), 'type': 'line', 'name': 'fi13'}
                     ],
             'layout': {
-                'title': 'Forse index 2 and 13 from ' + selected_dropdown_value
+                'title': 'Forse index 2 and 13 for ' + selected_dropdown_value
             }
            }
     return fi_chart
