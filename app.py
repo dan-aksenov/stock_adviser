@@ -86,14 +86,20 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     df = get_price_data(param)
     
-    main_chart = go.Scatter(
+    close_chart = go.Scatter(
         x = df.index,
         y = df.Close
     )
-                
-    fi_chart = go.Scatter(
+    
+    ema10_chart = go.Scatter(
         x = df.index,
-        y = rawfi(df).ewm(span=2, adjust=False).mean())
+        y = df.Close.ewm(span=10, adjust=False).mean()
+    )
+                
+    fi_chart2 = go.Scatter(
+        x = df.index,
+        y = rawfi(df).ewm(span=2, adjust=False).mean()
+    )
         
     '''{
             'data': [
@@ -107,8 +113,9 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
                           shared_xaxes=True, shared_yaxes=False,
                           vertical_spacing=0.001)
     
-    stacked_chart.append_trace(main_chart, 2, 1)
-    stacked_chart.append_trace(fi_chart, 1, 1)
+    stacked_chart.append_trace(close_chart, 1, 1)
+    stacked_chart.append_trace(ema10_chart, 1, 1)
+    stacked_chart.append_trace(fi_chart2, 2, 1)
     
     stacked_chart['layout'].update(height=600, width=600, title='Stacked Subplots with Shared X-Axes')
     
