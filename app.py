@@ -74,8 +74,10 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
 
     if selected_radio_value == 86400*7:
     	scale = "1Y"
+        scale_title = "Weekly"
     elif selected_radio_value == 86400:
     	scale = "2M"
+        scale_title = "Daily"
     
     param = {
 	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
@@ -126,7 +128,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     stacked_chart.append_trace(fi_chart2, 2, 1)
     stacked_chart.append_trace(fi_chart13, 2, 1)
     
-    stacked_chart['layout'].update(height=800, width=1600, title='Stacked Subplots with Shared X-Axes')
+    stacked_chart['layout'].update(height=600, width=800, title= scale_title + ' analytics for ' + selected_dropdown_value)
     
     return stacked_chart
 
