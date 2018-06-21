@@ -106,29 +106,36 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
         name='ema20'
     )
                 
-    fi_chart2 = go.Scatter(
+    fi2_chart = go.Scatter(
         x = df.index,
         y = rawfi(df).ewm(span=2, adjust=False).mean(),
         name='fi2'
     )
     
-    fi_chart13 = go.Scatter(
+    fi13_chart = go.Scatter(
         x = df.index,
         y = rawfi(df).ewm(span=13, adjust=False).mean(),
         name='fi13'
     )
     
-    stacked_chart = tools.make_subplots(rows=2, cols=1, specs=[[{}], [{}]],
+    vol_chart = go.Scatter(
+        x = df.index,
+        y = df.Volume,
+        name='Volume'
+    )
+
+    stacked_chart = tools.make_subplots(rows=3, cols=1, specs=[[{}], [{}],[{}]],
                           shared_xaxes=True, shared_yaxes=False,
                           vertical_spacing=0.001)
     
     stacked_chart.append_trace(close_chart, 1, 1)
     stacked_chart.append_trace(ema10_chart, 1, 1)
     stacked_chart.append_trace(ema20_chart, 1, 1)
-    stacked_chart.append_trace(fi_chart2, 2, 1)
-    stacked_chart.append_trace(fi_chart13, 2, 1)
+    stacked_chart.append_trace(fi2_chart, 2, 1)
+    stacked_chart.append_trace(fi13_chart, 2, 1)
+    stacked_chart.append_trace(vol_chart, 3, 1)
     
-    stacked_chart['layout'].update(height=600, width=800, title= scale_title + ' analytics for ' + selected_dropdown_value)
+    stacked_chart['layout'].update(height=800, width=800, title= scale_title + ' analytics for ' + selected_dropdown_value)
     
     return stacked_chart
 
