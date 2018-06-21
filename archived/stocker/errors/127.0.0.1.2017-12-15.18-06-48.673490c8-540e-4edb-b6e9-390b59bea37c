@@ -1,0 +1,19 @@
+(dp1
+S'output'
+p2
+S''
+sS'layer'
+p3
+S'Framework'
+p4
+sS'code'
+p5
+S''
+sS'snapshot'
+p6
+(dp7
+sS'traceback'
+p8
+S'Traceback (most recent call last):\n  File "D:\\distr\\web2py\\gluon\\main.py", line 445, in wsgibase\n    serve_controller(request, response, session)\n  File "D:\\distr\\web2py\\gluon\\main.py", line 184, in serve_controller\n    page = run_view_in(response._view_environment)\n  File "D:\\distr\\web2py\\gluon\\compileapp.py", line 724, in run_view_in\n    context=environment)\n  File "D:\\distr\\web2py\\gluon\\template.py", line 792, in parse_template\n    return str(TemplateParser(text, context=context, path=path, lexers=lexers, delimiters=delimiters))\n  File "D:\\distr\\web2py\\gluon\\template.py", line 314, in __init__\n    self.parse(text)\n  File "D:\\distr\\web2py\\gluon\\template.py", line 679, in parse\n    self.include(top, value)\n  File "D:\\distr\\web2py\\gluon\\template.py", line 457, in include\n    text = self._get_file_text(filename)\n  File "D:\\distr\\web2py\\gluon\\template.py", line 434, in _get_file_text\n    filename = eval(filename, context)\n  File "<string>", line 1, in <module>\nNameError: name \'default\' is not defined\n'
+p9
+s.
