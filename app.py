@@ -5,6 +5,10 @@ import dash_html_components as html
 from pandas_datareader import data as web
 from datetime import datetime as dt
 
+from plotly import tools
+import plotly.plotly as py
+import plotly.graph_objs as go
+
 #import analizer
 
 from googlefinance.client import get_price_data
@@ -56,19 +60,8 @@ app.layout = html.Div([
     html.Div([
         html.Div([
             #html.H3( 'Close, ema10, ema20' ),
-            dcc.Graph(id='main_chart')
+            dcc.Graph(id='stacked_chart')
         ], className="six columns"),
-
-        html.Div([
-            #html.H3('Forse index 2 and 13'),
-            dcc.Graph(id='fi_chart')
-        ], className="six columns"),
-
-        html.Div([
-            #html.H3('Forse index 2 and 13'),
-            dcc.Graph(id='vol_chart')
-        ], className="six columns"),
-
     ], className="row")
 ])
 
@@ -76,7 +69,7 @@ app.css.append_css({
     'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 })
 
-@app.callback(Output('main_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
+@app.callback(Output('stacked_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_main_graph(selected_dropdown_value, selected_radio_value):
 
     if selected_radio_value == 86400*7:
@@ -93,74 +86,33 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     df = get_price_data(param)
     
-    main_chart = {  
-            'data': [ 
-                 {'x': df.index, 'y': df.Close, 'type': 'line', 'name': 'Close'},
-                 {'x': df.index, 'y': df.Close.ewm(span=10, adjust=False).mean(),'type': 'line', 'name': 'EMA10'},
-                 {'x': df.index, 'y': df.Close.ewm(span=20, adjust=False).mean(),'type': 'line', 'name': 'EMA20'}
-                    ],
-            'layout': {
-                'title': 'Close, ema10, ema20 for ' + selected_dropdown_value
-            }
-            }
-    return main_chart
-
-@app.callback(Output('fi_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
-def update_fi_graph(selected_dropdown_value, selected_radio_value):
-
-    if selected_radio_value == 86400*7:
-    	scale = "1Y"
-    elif selected_radio_value == 86400:
-    	scale = "2M"
-    
-    param = {
-	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
-	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
-	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': scale                       # Period (Ex: "1Y" = 1 year)
-    }
-    
-    df = get_price_data(param)
-    
-    fi_chart = {
+    main_chart = go.Scatter(
+        x = df.index,
+        y = df.Close
+    )
+                
+    fi_chart = go.Scatter(
+        x = df.index,
+        y = rawfi(df).ewm(span=2, adjust=False).mean())
+        
+    '''{
             'data': [
                 {'x': df.index, 'y': rawfi(df).ewm(span=2, adjust=False).mean(), 'type': 'line', 'name': 'fi2'},
                 {'x': df.index, 'y': rawfi(df).ewm(span=13, adjust=False).mean(), 'type': 'line', 'name': 'fi13'}
-                    ],
-            'layout': {
-                'title': 'Forse index 2 and 13 for ' + selected_dropdown_value
-            }
-           }
-    return fi_chart
-
-@app.callback(Output('vol_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
-def update_fi_graph(selected_dropdown_value, selected_radio_value):
-
-    if selected_radio_value == 86400*7:
-    	scale = "1Y"
-    elif selected_radio_value == 86400:
-    	scale = "2M"
-
-    param = {
-	'q': selected_dropdown_value,   # Stock symbol (ex: "AAPL")
-	'i': selected_radio_value,      # Interval size in seconds ("86400" = 1 day intervals)
-	'x': "MCX",                     # Stock exchange symbol on which stock is traded (ex: "NASD")
-	'p': scale                       # Period (Ex: "1Y" = 1 year)
-    }
+                    ]
+           } 
+    '''
     
-    df = get_price_data(param)
+    stacked_chart = tools.make_subplots(rows=2, cols=1, specs=[[{}], [{}]],
+                          shared_xaxes=True, shared_yaxes=False,
+                          vertical_spacing=0.001)
     
-    vol_chart = {
-            'data': [
-                 {'x': df.index, 'y': df.Volume, 'type': 'bar', 'name': 'Volume'}
-
-                    ],
-            'layout': {
-                'title': 'Volume for ' + selected_dropdown_value
-            }
-           }
-    return vol_chart
-
+    stacked_chart.append_trace(main_chart, 2, 1)
+    stacked_chart.append_trace(fi_chart, 1, 1)
+    
+    stacked_chart['layout'].update(height=600, width=600, title='Stacked Subplots with Shared X-Axes')
+    
+    return stacked_chart
 
 def rawfi(x):
      P = x.Close
