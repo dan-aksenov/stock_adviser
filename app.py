@@ -88,26 +88,33 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     close_chart = go.Scatter(
         x = df.index,
-        y = df.Close
+        y = df.Close,
+        name='Close'
     )
     
     ema10_chart = go.Scatter(
         x = df.index,
-        y = df.Close.ewm(span=10, adjust=False).mean()
+        y = df.Close.ewm(span=10, adjust=False).mean(),
+        name='ema10'
+    )
+    
+    ema20_chart = go.Scatter(
+        x = df.index,
+        y = df.Close.ewm(span=20, adjust=False).mean(),
+        name='ema20'
     )
                 
     fi_chart2 = go.Scatter(
         x = df.index,
-        y = rawfi(df).ewm(span=2, adjust=False).mean()
+        y = rawfi(df).ewm(span=2, adjust=False).mean(),
+        name='fi2'
     )
-        
-    '''{
-            'data': [
-                {'x': df.index, 'y': rawfi(df).ewm(span=2, adjust=False).mean(), 'type': 'line', 'name': 'fi2'},
-                {'x': df.index, 'y': rawfi(df).ewm(span=13, adjust=False).mean(), 'type': 'line', 'name': 'fi13'}
-                    ]
-           } 
-    '''
+    
+    fi_chart13 = go.Scatter(
+        x = df.index,
+        y = rawfi(df).ewm(span=13, adjust=False).mean(),
+        name='fi13'
+    )
     
     stacked_chart = tools.make_subplots(rows=2, cols=1, specs=[[{}], [{}]],
                           shared_xaxes=True, shared_yaxes=False,
@@ -115,9 +122,11 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     stacked_chart.append_trace(close_chart, 1, 1)
     stacked_chart.append_trace(ema10_chart, 1, 1)
+    stacked_chart.append_trace(ema20_chart, 1, 1)
     stacked_chart.append_trace(fi_chart2, 2, 1)
+    stacked_chart.append_trace(fi_chart13, 2, 1)
     
-    stacked_chart['layout'].update(height=600, width=600, title='Stacked Subplots with Shared X-Axes')
+    stacked_chart['layout'].update(height=800, width=1600, title='Stacked Subplots with Shared X-Axes')
     
     return stacked_chart
 
