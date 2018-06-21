@@ -6,7 +6,6 @@ from pandas_datareader import data as web
 from datetime import datetime as dt
 
 from plotly import tools
-import plotly.plotly as py
 import plotly.graph_objs as go
 
 #import analizer
