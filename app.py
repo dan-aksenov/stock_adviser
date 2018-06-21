@@ -118,7 +118,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
         name='fi13'
     )
     
-    vol_chart = go.Scatter(
+    vol_chart = go.Bar(
         x = df.index,
         y = df.Volume,
         name='Volume'
