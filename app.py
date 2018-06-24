@@ -35,6 +35,7 @@ tickers = ['SBER',
 'CHMF',
 'MOEX',
 'IRAO',
+'UPRO'
 ]
 
 #todo make 'good' ticker list
