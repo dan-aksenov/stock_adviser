@@ -35,7 +35,7 @@ tickers = ['SBER',
 'CHMF',
 'MOEX',
 'IRAO',
-'UPRO'
+'UPRO',
 'RASP',
 'LSNG',
 'LSNGP'
