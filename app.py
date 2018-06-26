@@ -75,7 +75,7 @@ app.css.append_css({
 def update_main_graph(selected_dropdown_value, selected_radio_value):
 
     if selected_radio_value == 86400*7:
-    	scale = "1Y"
+    	scale = "2Y"
         scale_title = "Weekly"
     elif selected_radio_value == 86400:
     	scale = "2M"
