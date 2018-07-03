@@ -36,7 +36,6 @@ tickers = ['SBER',
 'MOEX',
 'IRAO',
 'RASP',
-'LSNG',
 'LSNGP',
 'VSMO'
 ]
