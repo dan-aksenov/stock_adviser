@@ -14,7 +14,9 @@ from googlefinance.client import get_price_data
 
 app = dash.Dash()
 
-tickers = ['SBER',
+tickers = [
+#BLUE CHIPS AND INDEX
+'SBER',
 'SBERP',
 'GAZP',
 'LKOH',
@@ -57,9 +59,11 @@ tickers = ['SBER',
 'UWGN',
 'MVID',
 'RASP',
+#DIV HISTORY
 'LSNGP',
 'VSMO',
-'MTLRP'
+'MTLRP',
+'BANEP'
 ]
 
 #todo make 'good' ticker list
