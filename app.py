@@ -63,7 +63,8 @@ tickers = [
 'LSNGP',
 'VSMO',
 'MTLRP',
-'BANEP'
+'BANEP',
+'MGTSP'
 ]
 
 #todo make 'good' ticker list
