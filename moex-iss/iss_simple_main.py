@@ -23,7 +23,12 @@ from iss_simple_client import MicexAuth
 from iss_simple_client import MicexISSClient
 from iss_simple_client import MicexISSDataHandler
             
-class MyData_print:
+class MyData:
+    """ Container that will be used by the handler to store data.
+    Kept separately from the handler for scalability purposes: in order
+    to differentiate storage and output from the processing.
+    """
+
     def __init__(self):
         self.history = []
 
@@ -31,15 +36,7 @@ class MyData_print:
         for sec in self.history:
             print sec
 
-class MyData_tofile():
-    """ Container that will be used by the handler to store data.
-    Kept separately from the handler for scalability purposes: in order
-    to differentiate storage and output from the processing.
-    """
-    def __init__(self):
-        self.history = []
-
-    def print_history(self):
+    def print_history_tofile(self):
         with open(outfile,'ab') as resultFile:
             wr = csv.writer(resultFile, delimiter='\t')
             wr.writerows(self.history)
@@ -78,7 +75,7 @@ def main():
     """ Current date doesn't work during trade day. Can be run on evening after."""
     now = datetime.datetime.now() - datetime.timedelta(days=1)
     if my_auth.is_real_time():
-        iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData_print)
+        iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
         iss.get_history_securities('stock',
                                    'shares',
                                    'tqbr',
