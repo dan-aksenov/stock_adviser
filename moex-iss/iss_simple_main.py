@@ -71,7 +71,7 @@ def main():
     """Get current day's data and display print it on screen."""
     my_config = config(config_file=raw_input('config file: ')) 
     my_auth = MicexAuth(my_config)
-    """ Current date doesn't work during trade day. Can be run on evening after."""
+    # get yesterday
     now = datetime.datetime.now() - datetime.timedelta(days=1)
     if my_auth.is_real_time():
         iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
