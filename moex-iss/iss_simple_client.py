@@ -16,7 +16,7 @@ import json
 
 # Скорее всего нужно переделать. И возвращать историю по одной бумаге
 # Думаю это подойдет - /iss/history/engines/[engine]/markets/[market]/securities/[security]
-# https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SBER
+# Пример https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SBER.xml?from=2016-12-31
 requests = {'history_secs': 'http://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities.json?date=%(date)s'}
 
 # Получить историю по всем бумагам на рынке за одну дату. Например: https://iss.moex.com/iss/history/engines/stock/markets/index/securities.xml?date=2010-11-22
