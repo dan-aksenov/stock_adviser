@@ -69,7 +69,6 @@ def config(config_file):
 
 def main():
     """Get current day's data and display print it on screen."""
-    #my_config = Config(user=raw_input('username:'), password=raw_input('password:'), proxy_url='')
     my_config = config(config_file=raw_input('config file: ')) 
     my_auth = MicexAuth(my_config)
     """ Current date doesn't work during trade day. Can be run on evening after."""
@@ -81,7 +80,10 @@ def main():
                                    'tqbr',
                                    now.strftime("%Y-%m-%d"))
         iss.handler.data.print_history()
+        print iss.handler.data.history
+   
 
+# to be trashed
 def get_multiple( days_cnt, out_file, config_data ):
     """ Loop function to get ranges of dates. """
     global outfile
