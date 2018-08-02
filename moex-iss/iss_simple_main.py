@@ -78,12 +78,15 @@ def main():
         iss.get_history_securities('stock',
                                    'shares',
                                    'tqbr',
-                                   now.strftime("%Y-%m-%d"))
+                                   #here to be ticker
+                                   now.strftime("%Y-%m-%d")
+                                   #here to be start end dates
+                                   )
         #iss.handler.data.print_history()
         print iss.handler.data.history
    
-
-# to be trashed
+'''
+to be trashed
 def get_multiple( days_cnt, out_file, config_data ):
     """ Loop function to get ranges of dates. """
     global outfile
@@ -104,6 +107,7 @@ def get_multiple( days_cnt, out_file, config_data ):
                                    'tqbr',
                                    dt.strftime("%Y-%m-%d"))
             iss.handler.data.print_history()
+'''
         
 if __name__ == '__main__':
     try:
