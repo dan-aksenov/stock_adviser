@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
     Small example of a library implementing interaction with Moscow Exchange ISS server.
 
