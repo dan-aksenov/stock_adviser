@@ -79,7 +79,7 @@ def main():
                                    'shares',
                                    'tqbr',
                                    now.strftime("%Y-%m-%d"))
-        iss.handler.data.print_history()
+        #iss.handler.data.print_history()
         print iss.handler.data.history
    
 
