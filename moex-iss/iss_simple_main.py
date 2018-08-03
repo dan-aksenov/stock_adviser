@@ -40,9 +40,6 @@ class MyData:
         with open(outfile,'ab') as resultFile:
             wr = csv.writer(resultFile, delimiter='\t')
             wr.writerows(self.history)
-
-#class MyData_todb():
-#psycopg copy to behere. or separate file?
             
 class MyDataHandler(MicexISSDataHandler):
     """ This handler will be receiving pieces of data from the ISS client.
@@ -54,22 +51,20 @@ class MyDataHandler(MicexISSDataHandler):
         """
         self.data.history = self.data.history + market_data
 
-def config(config_file):
-   try:
+def main():
+    """Get current day's data and display print it on screen."""
+    config_file=raw_input('config file: ')
+    try:
         with open(config_file) as config_file:    
             conn_data = json.load(config_file)
-   except:
+    except:
         print "Error: Unable to read config file. "
         sys.exit(1)
 
-   username = conn_data['username']
-   password = conn_data['password']
-   my_config = Config(user=username, password=password, proxy_url='')
-   return my_config
+    username = conn_data['username']
+    password = conn_data['password']
+    my_config = Config(user=username, password=password, proxy_url='')
 
-def main():
-    """Get current day's data and display print it on screen."""
-    my_config = config(config_file=raw_input('config file: ')) 
     my_auth = MicexAuth(my_config)
     # get yesterday
     now = datetime.datetime.now() - datetime.timedelta(days=1)
@@ -82,7 +77,6 @@ def main():
                                    now.strftime("%Y-%m-%d")
                                    #here to be start end dates
                                    )
-        #iss.handler.data.print_history()
         print iss.handler.data.history
    
 '''
