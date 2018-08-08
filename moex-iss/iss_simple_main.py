@@ -12,16 +12,19 @@
     @copyright: 2016 by MOEX
 """
 
+from iss_simple_client import Config
+from iss_simple_client import MicexAuth
+from iss_simple_client import MicexISSClient
+from iss_simple_client import MicexISSDataHandler
+
+#My imports
 import sys
 import datetime
 import csv
 #json to read config file
 import json
-
-from iss_simple_client import Config
-from iss_simple_client import MicexAuth
-from iss_simple_client import MicexISSClient
-from iss_simple_client import MicexISSDataHandler
+import pandas as pd
+#My import ends
             
 class MyData:
     """ Container that will be used by the handler to store data.
@@ -40,6 +43,13 @@ class MyData:
         with open(outfile,'ab') as resultFile:
             wr = csv.writer(resultFile, delimiter='\t')
             wr.writerows(self.history)
+    
+    # inspired by github.com/pdevty/googlefinance-client-python/blob/master/googlefinance
+    def as_dataframe(self):
+        data = []
+        for sec in self.history:
+            data.append(sec)
+        return pd.DataFrame(data,columns = ['Date','Ticker','Open', 'High', 'Low', 'Close', 'Volume']) 
             
 class MyDataHandler(MicexISSDataHandler):
     """ This handler will be receiving pieces of data from the ISS client.
@@ -77,7 +87,8 @@ def main():
                                    now.strftime("%Y-%m-%d")
                                    #here to be start end dates
                                    )
-        print iss.handler.data.history
+        #print iss.handler.data.history
+        print iss.handler.data.as_dataframe()
    
 '''
 to be trashed
