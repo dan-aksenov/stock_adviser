@@ -78,12 +78,15 @@ def main():
     my_auth = MicexAuth(my_config)
     # get yesterday
     now = datetime.datetime.now() - datetime.timedelta(days=1)
+    
+    ticker = 'SBER' # for tesing...
+
     if my_auth.is_real_time():
         iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
         iss.get_history_securities('stock',
                                    'shares',
                                    'tqbr',
-                                   #here to be ticker
+                                   ticker, 
                                    now.strftime("%Y-%m-%d")
                                    #here to be start end dates
                                    )

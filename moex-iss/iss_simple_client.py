@@ -18,8 +18,8 @@ import json
 # Думаю это подойдет - /iss/history/engines/[engine]/markets/[market]/securities/[security]
 # Пример https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SBER.xml?from=2016-12-31
 # См. также https://iss.moex.com/iss/reference/68
-requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/SBER.json?from=2016-12-31'}
-
+#requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/SBER.json?from=2016-12-31'}
+requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/%(security)s.json?from=2016-12-31'}
 #requests = {'history_secs': 'http://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities.json?date=%(date)s'}
 # Получить историю по всем бумагам на рынке за одну дату. Например: https://iss.moex.com/iss/history/engines/stock/markets/index/securities.xml?date=2010-11-22
 #requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/securities.json?date=%(date)s'}
@@ -121,13 +121,15 @@ class MicexISSClient:
         urllib2.install_opener(self.opener)
         self.handler = handler(container)
 
-    def get_history_securities(self, engine, market, board, date):
+    def get_history_securities(self, engine, market, board, security, date):
         """ Get and parse historical data on all the securities at the
         given engine, market, board
         """
         url = requests['history_secs'] % {'engine': engine,
                                           'market': market,
-                                          'board': board}
+                                          'board': board,
+                                          'security': security
+                                          }
                                        #   'date': date}
 
         # always remember about the 'start' argument to get long replies
