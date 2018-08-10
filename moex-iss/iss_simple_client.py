@@ -15,8 +15,8 @@ import cookielib
 import json
 
 # См. также https://iss.moex.com/iss/reference/68
-#requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/SBER.json?from=2016-12-31'}
-requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/%(security)s.json?from=2016-12-31'}
+requests = {'history_secs': 'https://iss.moex.com/iss/history/engines/%(engine)s/markets/%(market)s/boards/%(board)s/securities/%(security)s.json?from=%(from)s'}
+
 # Получить историю по всем бумагам на рынке за одну дату. Например: https://iss.moex.com/iss/history/engines/stock/markets/index/securities.xml?date=2010-11-22
 
 class Config:
@@ -123,9 +123,8 @@ class MicexISSClient:
         url = requests['history_secs'] % {'engine': engine,
                                           'market': market,
                                           'board': board,
-                                          'security': security
-                                          }
-                                       #   'date': date}
+                                          'security': security,
+                                          'from': date}
 
         # always remember about the 'start' argument to get long replies
         start = 0
