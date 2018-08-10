@@ -46,10 +46,12 @@ class MyData:
     
     # inspired by github.com/pdevty/googlefinance-client-python/blob/master/googlefinance
     def as_dataframe(self):
+        index = []
         data = []
         for sec in self.history:
-            data.append(sec)
-        return pd.DataFrame(data,columns = ['Date','Ticker','Open', 'High', 'Low', 'Close', 'Volume']) 
+            index.append(sec[0])
+            data.append([sec[2],sec[3],sec[4],sec[5],sec[6]])
+        return pd.DataFrame(data, index = index, columns = ['Open', 'High', 'Low', 'Close', 'Volume']) 
             
 class MyDataHandler(MicexISSDataHandler):
     """ This handler will be receiving pieces of data from the ISS client.
