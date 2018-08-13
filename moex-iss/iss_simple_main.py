@@ -63,9 +63,10 @@ class MyDataHandler(MicexISSDataHandler):
         """
         self.data.history = self.data.history + market_data
 
-def main():
+def get_price_data(ticker):
     """Get current day's data and display print it on screen."""
-    config_file=raw_input('config file: ')
+    #config_file=raw_input('config file: ')
+    config_file="d:/tmp/moex.json"    
     try:
         with open(config_file) as config_file:    
             conn_data = json.load(config_file)
@@ -80,7 +81,7 @@ def main():
     my_auth = MicexAuth(my_config)
     date = datetime.datetime.now() - datetime.timedelta(days=30)
     
-    ticker = 'SBER' # for tesing...
+    #ticker = 'SBER' # for tesing...
     
     if my_auth.is_real_time():
         iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData)
@@ -92,34 +93,10 @@ def main():
                                    #here to be start end dates
                                    )
         #print iss.handler.data.history
-        print iss.handler.data.as_dataframe()
-   
-'''
-to be trashed
-def get_multiple( days_cnt, out_file, config_data ):
-    """ Loop function to get ranges of dates. """
-    global outfile
-    outfile = out_file
-    now = datetime.datetime.now()
-    befoure = now - datetime.timedelta(days=days_cnt)
-    delta = now - befoure
-    my_config = config( config_data ) 
-    my_auth = MicexAuth( my_config )
-    #my_data = MyData_tofile(outfile)
-    
-    for i in range(delta.days + 1):
-        dt = befoure + datetime.timedelta(days=i)
-        if my_auth.is_real_time():
-            iss = MicexISSClient(my_config, my_auth, MyDataHandler, MyData_tofile)
-            iss.get_history_securities('stock',
-                                   'shares',
-                                   'tqbr',
-                                   dt.strftime("%Y-%m-%d"))
-            iss.handler.data.print_history()
-'''
+    return iss.handler.data.as_dataframe() 
         
 if __name__ == '__main__':
     try:
-        main()
+        get_price_data()
     except:
         print "Sorry:", sys.exc_type, ":", sys.exc_value
