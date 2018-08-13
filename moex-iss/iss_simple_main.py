@@ -78,7 +78,7 @@ def main():
     my_config = Config(user=username, password=password, proxy_url='')
 
     my_auth = MicexAuth(my_config)
-    date = datetime.datetime.now() - datetime.timedelta(days=7)
+    date = datetime.datetime.now() - datetime.timedelta(days=30)
     
     ticker = 'SBER' # for tesing...
     
