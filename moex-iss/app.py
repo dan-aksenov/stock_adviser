@@ -80,10 +80,10 @@ app.layout = html.Div([
     dcc.RadioItems(
         id='my-radio',
         options=[
-        {'label': 'Daily chart', 'value': 86400},
-        {'label': 'Weekly chart', 'value': 86400*7}
+        {'label': 'Small scale', 'value': 30*2},
+        {'label': 'Large scale', 'value': 365*2}
     ],
-        value=86400*7
+        value=365*2
     ),
     
     html.Div([
@@ -101,14 +101,14 @@ app.css.append_css({
 @app.callback(Output('stacked_chart', 'figure'), [Input('my-dropdown', 'value') ,Input('my-radio', 'value')])
 def update_main_graph(selected_dropdown_value, selected_radio_value):
     ticker = selected_dropdown_value	
-    if selected_radio_value == 86400*7:
-    	scale = "2Y"
-        scale_title = "Weekly"
-    elif selected_radio_value == 86400:
-    	scale = "2M"
+    if selected_radio_value == 30*2:
+    	days_befoure = 30*2
         scale_title = "Daily"
+    else:
+    	days_befoure = 365*2
+        scale_title = "Weekly"
  
-    df = get_price_data(ticker)
+    df = get_price_data(ticker, days_befoure)
     
     close_chart = go.Scatter(
         x = df.index,
@@ -157,7 +157,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     stacked_chart.append_trace(fi13_chart, 2, 1)
     stacked_chart.append_trace(vol_chart, 3, 1)
     
-    stacked_chart['layout'].update(height=800, width=800, title= scale_title + ' analytics for ' + selected_dropdown_value)
+    stacked_chart['layout'].update(height=800, width=1280, title= scale_title + ' analytics for ' + selected_dropdown_value)
     
     return stacked_chart
 

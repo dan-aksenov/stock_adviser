@@ -63,7 +63,7 @@ class MyDataHandler(MicexISSDataHandler):
         """
         self.data.history = self.data.history + market_data
 
-def get_price_data(ticker):
+def get_price_data(ticker, days_befoure):
     """Get current day's data and display print it on screen."""
     #config_file=raw_input('config file: ')
     config_file="d:/tmp/moex.json"    
@@ -79,7 +79,7 @@ def get_price_data(ticker):
     my_config = Config(user=username, password=password, proxy_url='')
 
     my_auth = MicexAuth(my_config)
-    date = datetime.datetime.now() - datetime.timedelta(days=30)
+    date = datetime.datetime.now() - datetime.timedelta(days_befoure)
     
     #ticker = 'SBER' # for tesing...
     
@@ -97,6 +97,6 @@ def get_price_data(ticker):
         
 if __name__ == '__main__':
     try:
-        get_price_data()
+        get_price_data('SBER', 30)
     except:
         print "Sorry:", sys.exc_type, ":", sys.exc_value
