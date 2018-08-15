@@ -10,5 +10,5 @@ http://pandas-datareader.readthedocs.io/en/latest/remote_data.html#remote-data-m
 import pandas_datareader.data as web
 df = web.DataReader('SBER', 'moex', start='2017-07-01', end='2017-07-31')
 df = web.DataReader('SBER', 'moex', start='2018-01-01')
-df.loc[(df['BOARDID'] == 'TQBR'), 'CLOSE']
+df.loc[(df['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
 ```
