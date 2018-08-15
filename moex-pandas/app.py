@@ -115,7 +115,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
 	'p': scale                       # Period (Ex: "1Y" = 1 year)
     }
     
-    f = web.DataReader('SBER', 'moex', start='2018-01-01')
+    f = web.DataReader(selected_dropdown_value, 'moex', start='2018-01-01')
     df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
     
     CLOSE_chart = go.Scatter(
