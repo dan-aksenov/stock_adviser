@@ -2,8 +2,9 @@ import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
+import pandas as pd
 from pandas_datareader import data as web
-from datetime import datetime as dt
+import datetime as dt
 
 from plotly import tools
 import plotly.graph_objs as go
@@ -73,6 +74,15 @@ app.layout = html.Div([
         value=sorted(tickers)[0]
     ),
     
+    dcc.RadioItems(
+        id='my-radio',
+        options=[
+        {'label': 'Daily chart', 'value': 'daily'},
+        {'label': 'Weekly chart', 'value': 'weekly'}
+    ],
+        value='weekly'
+    ),
+    
     html.Div([
         html.Div([
             #html.H3( 'Close, ema10, ema20' ),
@@ -85,12 +95,26 @@ app.css.append_css({
     'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 })
 
-@app.callback(Output('stacked_chart', 'figure'), [Input('my-dropdown', 'value') ])
-def update_main_graph(selected_dropdown_value):
+@app.callback(Output('stacked_chart', 'figure'), [Input('my-dropdown', 'value'),Input('my-radio', 'value')])
+def update_main_graph(selected_dropdown_value, selected_radio_value):
     
-    f = web.DataReader(selected_dropdown_value, 'moex', start='2017-01-01')
-    df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
-    
+    # weekly data block
+    if selected_radio_value == 'weekly':
+        dtstart = dt.datetime.now() - dt.timedelta(days=365*2)
+        dtstart = dtstart.strftime("%Y-%m-%d")
+        f = web.DataReader(selected_dropdown_value, 'moex', start = dtstart)
+        df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
+        CLOSE = df.CLOSE.resample('W-FRI').last()
+        VOLUME = df.VOLUME.resample('W-FRI').last()
+        df = pd.concat([CLOSE,VOLUME], axis=1)
+ 
+    # daily data block
+    elif selected_radio_value == 'daily':
+        dtstart = dt.datetime.now() - dt.timedelta(days=60)
+        dtstart = dtstart.strftime("%Y-%m-%d")
+        f = web.DataReader(selected_dropdown_value, 'moex', start= dtstart)
+        df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
+         
     CLOSE_chart = go.Scatter(
         x = df.index,
         y = df.CLOSE,
