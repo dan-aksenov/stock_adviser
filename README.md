@@ -2,8 +2,8 @@
 Getting moex data with pandas DataReader
 
 ## Links:
-http://pandas-datareader.readthedocs.io/en/latest/readers/moex.html 	 	
-http://pandas-datareader.readthedocs.io/en/latest/remote_data.html#remote-data-moex
+* http://pandas-datareader.readthedocs.io/en/latest/readers/moex.html 	 	
+* http://pandas-datareader.readthedocs.io/en/latest/remote_data.html#remote-data-moex
 
 ## Blueprints:
 ```
