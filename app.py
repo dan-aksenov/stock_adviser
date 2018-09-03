@@ -100,7 +100,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     # weekly data block
     if selected_radio_value == 'weekly':
-        dtstart = dt.datetime.now() - dt.timedelta(days=365*2)
+        dtstart = dt.datetime.now() - dt.timedelta(days=365)
         dtstart = dtstart.strftime("%Y-%m-%d")
         f = web.DataReader(selected_dropdown_value, 'moex', start = dtstart)
         df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
