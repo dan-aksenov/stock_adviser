@@ -12,8 +12,6 @@ import plotly.graph_objs as go
 
 app = dash.Dash()
 
-colorscale = cl.scales['9']['qual']['Paired']
-
 tickers = [
 #BLUE CHIPS AND INDEX
 'SBER',
@@ -129,9 +127,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
             'close': df.CLOSE,
             'type': 'candlestick',
             'name': selected_dropdown_value,
-            'legendgroup': selected_dropdown_value,
-            'increasing': {'line': {'color': colorscale[0]}},
-            'decreasing': {'line': {'color': colorscale[1]}}
+            'legendgroup': selected_dropdown_value
         }
 
     # still present, but not used anymore     
