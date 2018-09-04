@@ -128,19 +128,18 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
             'low': df.LOW,
             'close': df.CLOSE,
             'type': 'candlestick',
-            'name': ticker,
-            'legendgroup': ticker,
+            'name': selected_dropdown_value,
+            'legendgroup': selected_dropdown_value,
             'increasing': {'line': {'color': colorscale[0]}},
             'decreasing': {'line': {'color': colorscale[1]}}
         }
 
-'''         
+    # still present, but not used anymore     
     CLOSE_chart = go.Scatter(
         x = df.index,
         y = df.CLOSE,
         name='CLOSE'
     )
-'''
     
     ema10_chart = go.Scatter(
         x = df.index,
