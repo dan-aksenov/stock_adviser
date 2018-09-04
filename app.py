@@ -192,6 +192,13 @@ def rawfi(x):
      V = x.VOLUME
      raw_fi = (P-P.shift(1))*V
      return raw_fi
+
+def bbands(price, window_size=10, num_of_std=5):
+    rolling_mean = price.rolling(window=window_size).mean()
+    rolling_std  = price.rolling(window=window_size).std()
+    upper_band = rolling_mean + (rolling_std*num_of_std)
+    lower_band = rolling_mean - (rolling_std*num_of_std)
+    return rolling_mean, upper_band, lower_band
     
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0')
