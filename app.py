@@ -5,11 +5,14 @@ import dash_html_components as html
 import pandas as pd
 from pandas_datareader import data as web
 import datetime as dt
+import colorlover as cl
 
 from plotly import tools
 import plotly.graph_objs as go
 
 app = dash.Dash()
+
+colorscale = cl.scales['9']['qual']['Paired']
 
 tickers = [
 #BLUE CHIPS AND INDEX
@@ -103,23 +106,41 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
         dtstart = dt.datetime.now() - dt.timedelta(days=365)
         dtstart = dtstart.strftime("%Y-%m-%d")
         f = web.DataReader(selected_dropdown_value, 'moex', start = dtstart)
-        df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
+        df = f.loc[(f['BOARDID'] == 'TQBR'), ['OPEN','CLOSE','LOW','HIGH','VOLUME']]
         CLOSE = df.CLOSE.resample('W-FRI').last()
         VOLUME = df.VOLUME.resample('W-FRI').last()
-        df = pd.concat([CLOSE,VOLUME], axis=1)
+        OPEN = df.OPEN.resample('W-FRI').last()
+        HIGH = df.HIGH.resample('W-FRI').last()
+        LOW = df.LOW.resample('W-FRI').last()
+        df = pd.concat([OPEN,CLOSE,HIGH,LOW,VOLUME], axis=1)
  
     # daily data block
     elif selected_radio_value == 'daily':
         dtstart = dt.datetime.now() - dt.timedelta(days=60)
         dtstart = dtstart.strftime("%Y-%m-%d")
         f = web.DataReader(selected_dropdown_value, 'moex', start= dtstart)
-        df = f.loc[(f['BOARDID'] == 'TQBR'), ['CLOSE','VOLUME']]
-         
+        df = f.loc[(f['BOARDID'] == 'TQBR'), ['OPEN','CLOSE','LOW','HIGH','VOLUME']]
+
+    candlestick = {
+            'x': df.index,
+            'open': df.OPEN,
+            'high': df.HIGH,
+            'low': df.LOW,
+            'close': df.CLOSE,
+            'type': 'candlestick',
+            'name': ticker,
+            'legendgroup': ticker,
+            'increasing': {'line': {'color': colorscale[0]}},
+            'decreasing': {'line': {'color': colorscale[1]}}
+        }
+
+'''         
     CLOSE_chart = go.Scatter(
         x = df.index,
         y = df.CLOSE,
         name='CLOSE'
     )
+'''
     
     ema10_chart = go.Scatter(
         x = df.index,
@@ -155,7 +176,8 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
                           shared_xaxes=True, shared_yaxes=False,
                           vertical_spacing=0.001)
     
-    stacked_chart.append_trace(CLOSE_chart, 1, 1)
+#   stacked_chart.append_trace(CLOSE_chart, 1, 1)
+    stacked_chart.append_trace(candlestick, 1, 1)
     stacked_chart.append_trace(ema10_chart, 1, 1)
     stacked_chart.append_trace(ema20_chart, 1, 1)
     stacked_chart.append_trace(fi2_chart, 2, 1)
