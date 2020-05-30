@@ -99,25 +99,25 @@ app.css.append_css({
 @app.callback(Output('stacked_chart', 'figure'), [Input('my-dropdown', 'value'),Input('my-radio', 'value')])
 def update_main_graph(selected_dropdown_value, selected_radio_value):
     
-    # weekly data block
+    # weekly data breindexk
     if selected_radio_value == 'weekly':
         dtstart = dt.datetime.now() - dt.timedelta(days=365)
         dtstart = dtstart.strftime("%Y-%m-%d")
         f = web.DataReader(selected_dropdown_value, 'moex', start = dtstart)
-        df = f.loc[(f['BOARDID'] == 'TQBR'), ['OPEN','CLOSE','LOW','HIGH','VOLUME']]
+        df = f.loc[f.BOARDID.eq('RPMO'), ['OPEN','CLOSE','LOW','HIGH','VALUE']]
         CLOSE = df.CLOSE.resample('W-FRI').last()
-        VOLUME = df.VOLUME.resample('W-FRI').last()
+        VALUE = df.VALUE.resample('W-FRI').last()
         OPEN = df.OPEN.resample('W-FRI').last()
         HIGH = df.HIGH.resample('W-FRI').last()
         LOW = df.LOW.resample('W-FRI').last()
-        df = pd.concat([OPEN,CLOSE,HIGH,LOW,VOLUME], axis=1)
+        df = pd.concat([OPEN,CLOSE,HIGH,LOW,VALUE], axis=1)
  
-    # daily data block
+    # daily data breindexk
     elif selected_radio_value == 'daily':
         dtstart = dt.datetime.now() - dt.timedelta(days=60)
         dtstart = dtstart.strftime("%Y-%m-%d")
         f = web.DataReader(selected_dropdown_value, 'moex', start= dtstart)
-        df = f.loc[(f['BOARDID'] == 'TQBR'), ['OPEN','CLOSE','LOW','HIGH','VOLUME']]
+        df = f.loc[f.BOARDID.eq('RPMO'), ['OPEN','CLOSE','LOW','HIGH','VALUE']]
 
     candlestick = {
             'x': df.index,
@@ -163,8 +163,8 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
     
     vol_chart = go.Bar(
         x = df.index,
-        y = df.VOLUME,
-        name='VOLUME'
+        y = df.VALUE,
+        name='VALUE'
     )
 
     stacked_chart = tools.make_subplots(rows=3, cols=1, specs=[[{}], [{}],[{}]],
@@ -185,7 +185,7 @@ def update_main_graph(selected_dropdown_value, selected_radio_value):
 
 def rawfi(x):
      P = x.CLOSE
-     V = x.VOLUME
+     V = x.VALUE
      raw_fi = (P-P.shift(1))*V
      return raw_fi
    
