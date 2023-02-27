@@ -7,6 +7,4 @@
 # log
 *.log
 
-# errors, sessions
-stocker/errors/
-stocker/sessions/
+venv
